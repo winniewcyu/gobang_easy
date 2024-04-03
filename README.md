@@ -7,17 +7,27 @@ Welcome to the CSCI3100 Project: Gobang Easy. This document provides an overview
 
 ## Internal Notes: To be deleted after finished
 
-[] Registrat: // TODO: Check if username already exist
+[ ] Registrat: // TODO: Check if username already exist
+
 [x] Login
+
 [x] Home
-[] server: // TODO: link with db
-[] NewGame: change to functional programming instead of class 
-[] NewGamePublic: change to functional programming instead of class, and link to GameUI
-[] NewGamePrivate: change to functional programming instead of class, the ui of inviting friend should be just a button that raise alert on online friend interface with the roomID, join room require input: placeholder: Enter Room ID, and link to GameUI
-[] GameUI: most disastrous shit to be complete
-[] GameRecord: change to functional programming instead of class, and changing hard code to really functioning codes
-[] AdminHome: change to functional programming instead of class, please follow Home for reference
-[] AdminCRUD: change to functional programming instead of class, connect to db 
+
+[ ] server: // TODO: link with db
+
+[ ] NewGame: change to functional programming instead of class 
+
+[ ] NewGamePublic: change to functional programming instead of class, and link to GameUI
+
+[ ] NewGamePrivate: change to functional programming instead of class, the ui of inviting friend should be just a button that raise alert on online friend interface with the roomID, join room require input: placeholder: Enter Room ID, and link to GameUI
+
+[ ] GameUI: most disastrous shit to be complete
+
+[ ] GameRecord: change to functional programming instead of class, and changing hard code to really functioning codes
+
+[ ] AdminHome: change to functional programming instead of class, please follow Home for reference
+
+[ ] AdminCRUD: change to functional programming instead of class, connect to db 
 
 >tick the box if you have finished tasks above, thanks for effective contributing
 
