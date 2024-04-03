@@ -1,0 +1,87 @@
+.registerPage .container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.registerPage .img-container {
+    flex: 1;
+    padding-right: 1em;
+    background-color: #d9d9d9;
+}   
+
+.registerPage .form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.registerPage .header {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 36px;
+}
+  
+.registerPage .form-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+  
+.registerPage .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+}
+
+.registerPage .form input {
+    color: #000;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border: none;
+    border-bottom: 1px solid #000;
+    cursor: pointer;
+}
+
+.registerPage .form input :hover {
+    border: 1px solid #000;
+}
+
+.registerPage form label {
+    color: #000;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+}
+
+.registerPage .formBtn {
+    background-color: #fff;
+    color: #000;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.registerPage .formBtn :hover {
+    background-color: #d9d9d9;
+    border: 1px solid #000;
+}
+
+.registerPage .walletBtn {
+    background-color: #d9d9d9;
+    color: #000;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.registerPage .wallet {
+    grid-column: span 2;
+}
+  
