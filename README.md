@@ -7,6 +7,12 @@ Welcome to the CSCI3100 Project: Gobang Easy. This document provides an overview
 
 ## Internal Notes: To be deleted after finished
 
+game logic:
+
+[ ] moveListener: //TODO fetch after end game
+
+game interface:
+
 [ ] Registrat: // TODO: Check if username already exist
 
 [x] Login
@@ -31,14 +37,19 @@ Welcome to the CSCI3100 Project: Gobang Easy. This document provides an overview
 
 >tick the box if you have finished tasks above, thanks for effective contributing
 
+## Credit
+
+This project takes reference on [gobang] (https://github.com/lihongxun945/gobang.git) by [lihongxun945] (https://github.com/lihongxun945).
 
 ## Steps to run on your device
 
 1. Download with git clone, or zipped file(remeber to unzip it before using)
 2. Access directory ../GOBANG_EASY/app through terminal
+3. `npm install` <-- supposingly this works with 3-5
 3. `npm install react react-dom react-scripts `
 4. `npm install react-router-dom`
-5. `npm start`
+5. `npm install universal-cookie`
+4. `npm start`
 
 ## Steps to start the server
 

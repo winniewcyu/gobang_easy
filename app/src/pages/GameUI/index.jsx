@@ -1,5 +1,20 @@
-class GameUI extends React.Component {
-    render() {
+import React from 'react';
+import './GameUI.css';
+import Board from '../../components/board';
+import Control from '../../components/control';
+import { Provider } from 'react-redux';
+import store from '../store';
+
+function GamUI() {
+    return (
+      <div className="App">
+        <Board />
+        <Control />
+      </div>
+    );
+  }
+  export default GameUI;
+    /*render() {
         return(
             <>
             <div class="container p-5 my-5 border" style={{textAlign:"center"}}>
@@ -35,4 +50,4 @@ class GameUI extends React.Component {
             </>
         );
     }
-}
+}*/
