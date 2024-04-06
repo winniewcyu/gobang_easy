@@ -1,4 +1,4 @@
-import MinmaxWorker from './moveListener';
+import MinmaxWorker from './components/gameSlice';
 
 const worker = new MinmaxWorker();
 export const start = async (board_size, aiFirst, depth) => {

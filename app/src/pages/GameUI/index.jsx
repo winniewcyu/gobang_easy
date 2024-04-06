@@ -2,8 +2,6 @@ import React from 'react';
 import './GameUI.css';
 import Board from '../../components/board';
 import Control from '../../components/control';
-import { Provider } from 'react-redux';
-import store from '../store';
 
 function GamUI() {
     return (

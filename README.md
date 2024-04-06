@@ -45,10 +45,7 @@ This project takes reference on [gobang] (https://github.com/lihongxun945/gobang
 
 1. Download with git clone, or zipped file(remeber to unzip it before using)
 2. Access directory ../GOBANG_EASY/app through terminal
-3. `npm install` <-- supposingly this works instead of three cmd below
-3. `npm install react react-dom react-scripts `
-4. `npm install react-router-dom`
-5. `npm install universal-cookie`
+3. `npm install` 
 4. `npm start`
 
 ## Steps to start the server
