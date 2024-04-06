@@ -1,6 +1,6 @@
 # gobang_easy
 CSCI3100 Group B5 Spring2024
-Latest Update: 03/04/2024
+Latest Update: 07/04/2024
 
 Welcome to the CSCI3100 Project: Gobang Easy. This document provides an overview of the project's structure, key components, and development process. 
 
@@ -19,7 +19,7 @@ game interface:
 
 [x] Home
 
-[ ] server: // TODO: link with db
+[ ] server: // TODO: link with db @Ivan
 
 [ ] NewGame: change to functional programming instead of class 
 
@@ -27,11 +27,11 @@ game interface:
 
 [ ] NewGamePrivate: change to functional programming instead of class, the ui of inviting friend should be just a button that raise alert on online friend interface with the roomID, join room require input: placeholder: Enter Room ID, and link to GameUI
 
-[ ] GameUI: most disastrous shit to be complete
+[ ] GameUI: most disastrous shit to be complete // TODO: chatbox element to be complete
 
 [ ] GameRecord: change to functional programming instead of class, and changing hard code to really functioning codes
 
-[ ] AdminHome: change to functional programming instead of class, please follow Home for reference
+[x] AdminHome
 
 [ ] AdminCRUD: change to functional programming instead of class, connect to db 
 
@@ -45,7 +45,7 @@ This project takes reference on [gobang] (https://github.com/lihongxun945/gobang
 
 1. Download with git clone, or zipped file(remeber to unzip it before using)
 2. Access directory ../GOBANG_EASY/app through terminal
-3. `npm install` <-- supposingly this works with 3-5
+3. `npm install` <-- supposingly this works instead of three cmd below
 3. `npm install react react-dom react-scripts `
 4. `npm install react-router-dom`
 5. `npm install universal-cookie`
@@ -65,6 +65,7 @@ Below is an outline of the project's directory structure along with a descriptio
   - `/src` 
     - `/components` - Stores reusable UI components (images) used across different parts of the application.
     - `/pages` - Contains build and deployment scripts to automate parts of the development process.
+    - `/chessBot` - Consists of code for win checking, reusable as end game mechanism
 
 ## System Building Procedure //to_be_justify
 

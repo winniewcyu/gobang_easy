@@ -1,7 +1,7 @@
 
 import './control.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { startGame, endGame, undoMove, setAiFirst, setDepth, setIndex } from '../moveListener';
+import { startGame, endGame, undoMove, setAiFirst, setDepth, setIndex } from './gameSlice';
 import { board_size } from '../config';
 import { Button, Switch, Select } from 'antd';
 import { STATUS } from '../status';

@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { board_size } from '../config';
 import { STATUS } from '../status';
 import { start, end, move, undo } from '../moves';
