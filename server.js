@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
+const Game = require('./src/backend/GameHandlers.js');
 
 // TODO: link with db
 mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -230,8 +231,54 @@ app.delete('/user/:username', (req, res) => {
 
 /* Backend functions to be added:
 1. Read users with top 5 scores
+*/
+app.get('/top5user',  (req, res) => {
+  User.find({userType: "User"}).sort({ highestscore: -1 }).limit(5).exec()
+  .then((data)=>{
+    if(!data){
+      const RMess = 'No users created before';
+      res.contentType('text/plain');
+      res.status(404).send(RMess);
+    }
+    else{
+      const RMess = data
+          .map((user, index) => `${user.name}\n${user.highestscore}`)
+          .join('\n');
+        res.contentType('text/plain');
+        res.status(200).send(RMess);
+
+    }
+    
+  })
+  .catch((error) => {
+    console.log('Error occurred:', error);
+    const RMess = 'An error occurred while fetching the top 5 users.';
+    res.contentType('text/plain');
+    res.status(500).send(RMess);
+  })
+})
+
+/*
 2. Read users who are online
 */
+app.get('/onlineuser',  (req, res) => {
+  let RMess = "";
+  User.find({online: true})
+  .then((data)=>{
+    if(!data){
+      RMess += ('No users are online');
+      res.contentType('text/plain');
+      res.status(404).send(RMess);
+    }
+    else{
+      for (let i=0; i<data.length; i++)
+      RMess += (i+1 +". username: "+ data[i].name)
+      res.contentType('text/plain')
+      res.status(200).send(RMess);
+
+    }
+  })
+})
 
 
 app.listen(8080, () => console.log('Server running on http://localhost:8080'));
