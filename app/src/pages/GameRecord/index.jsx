@@ -1,3 +1,5 @@
+import React from 'react';
+
 class GameRecord extends React.Component {
     render() {
         return(
@@ -106,3 +108,4 @@ class GameRecord extends React.Component {
         );
     }
 }
+export default GameRecord;

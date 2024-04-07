@@ -4,7 +4,6 @@ import './LoginPage.css'
 import Cookies from "universal-cookie";
 
 function LoginPage() {
-  console.log(logo);
   const navigate = useNavigate();
   const cookies = new Cookies();
   

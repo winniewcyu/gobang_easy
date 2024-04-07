@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 function NewGamePrivate() {
     const [opponent, setOpponent] = useState(null);
@@ -21,7 +21,7 @@ function NewGamePrivate() {
     };
 
     if (redirectToGame) {
-        return <Redirect to={{ pathname: "/GameUI", state: { opponent: opponent, roomID: roomID } }} />
+        return <Navigate to={{ pathname: "/GameUI", state: { opponent: opponent, roomID: roomID } }} />
     }
 
     return (
