@@ -1,25 +1,47 @@
-class NewGamePrivate extends React.Component {
-    render() {
-        return(
-        <>
-        <div style={{textAlign:"center"}}>
-        <br/>
-        <ul style={{textAlign:"center", fontSize: 20}}>**One of your friend have invited you to join his/her private match, click the button below to join.</ul>
-        <ul><button type="submit" class="btn btn-primary" style={{width:'120px'}}>Join</button></ul>
-        <br/><br/><br/>
-        <h3 style={{textAlign:"center"}}>Create a private room (Invite 1-3 firend(s) to join):</h3>
-        <br/>
-                <form>
-                <label>Username(s): <input type="text" minLength={4} maxLength={16} pattern="[A-Za-z0-9]+" required/></label>
-                <pre/><pre/>
-                <pre/>
-                
-                <button type="submit" class="btn btn-secondary" style={{width:'120px'}}>Create</button>
-                <br/>
-                <br/>
-                </form>
-        </div>
-        </>
-        );
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+
+function NewGamePrivate() {
+    const [opponent, setOpponent] = useState(null);
+    const [roomID, setRoomID] = useState('');
+    const [redirectToGame, setRedirectToGame] = useState(false);
+
+    const handleJoin = () => {
+        // Validate roomID here
+        if (roomID) {
+            // TODO: check if the roomID currently active
+            setRedirectToGame(true);
+        }
+    };
+
+    const handleCreate = () => {
+        // Create room ID
+        setRoomID(Math.random().toString(36).substring(2, 7)); // Generate a random room ID
+        setRedirectToGame(true);
+    };
+
+    if (redirectToGame) {
+        return <Redirect to={{ pathname: "/GameUI", state: { opponent: opponent, roomID: roomID } }} />
     }
+
+    return (
+        <>
+            <div style={{textAlign:"center"}}>
+                <br/>
+                <ul style={{textAlign:"center", fontSize: 40}}>Select your opponent:</ul>
+                <button onClick={() => {setOpponent('machine'); handleCreate();}}>Machine</button>
+                <button onClick={() => setOpponent('human')}>Human</button>
+                {opponent === 'human' && (
+                    <div>
+                        <p>Do you want to join a room or create a new one?</p>
+                        <button onClick={handleJoin}>Join Room</button>
+                        <button onClick={handleCreate}>Create Room</button>
+                        <input type="text" placeholder="Enter Room ID" onChange={(e) => setRoomID(e.target.value)} />
+                    </div>
+                )}
+            </div>
+        </>
+    );
 }
+
+export default NewGamePrivate;

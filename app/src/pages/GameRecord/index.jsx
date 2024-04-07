@@ -1,5 +1,3 @@
-
-
 class GameRecord extends React.Component {
     render() {
         return(

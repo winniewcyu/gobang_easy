@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import UserHome from "./pages/UserHome";
 import AdminHome from "./pages/AdminHome";
 import GameRecord from "./pages/GameRecord";
+import AdminGameRecord from "./pages/AdminGameRecord";
 import NewGame from "./pages/NewGame";
 import NewGamePublic from "./pages/NewGamePublic";
 import NewGamePrivate from "./pages/NewGamePrivate";
@@ -22,6 +23,7 @@ export default function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<UserHome />} />
           <Route path="/gamerecord" element={<GameRecord />} />
+          <Route path="/admingamerecord" element={<AdminGameRecord/>}/>
           <Route path="/newgame" element={<NewGame />} />
           <Route path="/newgamepublic" element={<NewGamePublic />} />
           <Route path="/newgameprivate" element={<NewGamePrivate />} />

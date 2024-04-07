@@ -1,3 +1,6 @@
+# refer to components/chatbox.js
+# Just cannot directly force plug this into gameui 
+
 import socket
 import threading
 import tkinter

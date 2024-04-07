@@ -13,27 +13,19 @@ game logic:
 
 game interface:
 
+[ ] Chatbox: // I have translate to js, but not sure if it works
+
 [ ] Registrat: // TODO: Check if username already exist
-
-[x] Login
-
-[x] Home
 
 [ ] server: // TODO: link with db @Ivan
 
-[ ] NewGame: change to functional programming instead of class 
+[ ] GameUI: chatbox yet to be confirmed, control need to fetch many game info, also require roomID conditioning
 
-[ ] NewGamePublic: change to functional programming instead of class, and link to GameUI
-
-[ ] NewGamePrivate: change to functional programming instead of class, the ui of inviting friend should be just a button that raise alert on online friend interface with the roomID, join room require input: placeholder: Enter Room ID, and link to GameUI
-
-[ ] GameUI: most disastrous shit to be complete // TODO: chatbox element to be complete
-
-[ ] GameRecord: change to functional programming instead of class, and changing hard code to really functioning codes
-
-[x] AdminHome
+[ ] GameRecord: changing hard code to really functioning codes
 
 [ ] AdminCRUD: change to functional programming instead of class, connect to db 
+
+[x] Login, Home, NewGame, AdminHome, NewGamePublic, NewGamePrivate
 
 >tick the box if you have finished tasks above, thanks for effective contributing
 

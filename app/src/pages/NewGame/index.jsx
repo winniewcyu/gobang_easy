@@ -1,6 +1,7 @@
-class NewGame extends React.Component {
-    render() {
-        return(
+import React from 'react';
+
+function NewGame () {
+    return(
         <>
         <div style={{textAlign:"center"}}>
         <br/>
@@ -17,6 +18,6 @@ class NewGame extends React.Component {
         <a href="/" class="btn btn-warning" style={{width:'300px'}}>Back to Home</a>
         </div>
         </>
-        );
-    }
+    );
 }
+export default NewGame;
