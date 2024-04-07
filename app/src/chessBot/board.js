@@ -1,9 +1,9 @@
 import Zobrist from './zobrist';
 import Cache from './cache';
-import Evaluate, { FIVE } from './win';
+import Evaluate, { FIVE } from './eval';
 
 class Board {
-  constructor(size = 19, firstRole = 1) {
+  constructor(size = 15, firstRole = 1) {
     this.size = size;
     this.board = Array(this.size).fill().map(() => Array(this.size).fill(0));
     this.firstRole = firstRole;  // 1 for black, -1 for white
