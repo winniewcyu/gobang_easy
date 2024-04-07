@@ -1,0 +1,99 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-page .container {
+  display: flex;
+  width: 100vw; /* Adjust as needed */
+  height: 100vh; /* Adjust as needed */
+  padding: 16px;
+  background-color: rgb(31, 197, 203);
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  justify-content: space-between;
+}
+
+.login-page .login-page-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1em;
+  background-color: #d9d9d9;
+}
+
+.login-page .login-page-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.login-page .form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 50px; /* Adjust as needed */
+  align-items: center;
+  background-color: #fff;
+}
+
+.login-page .header {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 36px;
+}
+
+.login-page .form_setup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-page .form_setup label {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #000;
+  padding: 8px 10px;
+  margin: 8px 0;
+  border-radius: 4px;
+}
+
+.login-page .form_setup input,
+.login-page .form_setup select,
+.login-page .form_setup button {
+  color: #000;
+  padding: 8px 10px;
+  margin: 8px 0;
+  border: none;
+  border-bottom: 1px solid #000;
+  cursor: pointer;
+}
+
+.login-page .form_setup button {
+  height: 30px;
+  justify-content: center;
+  margin: 10px 10px;
+  background-color: #008CBA; /* Blue */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.login-page .login-page-link {
+  display: block;
+  margin: 10px auto;
+  color: #008CBA; /* Blue */
+  text-align: center;
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
+}
+
