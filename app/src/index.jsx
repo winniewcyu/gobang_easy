@@ -1,5 +1,7 @@
+import React from 'react';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import store from "./store";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserHome from "./pages/UserHome";
@@ -13,14 +15,16 @@ import GameUI from "./pages/GameUI";
 import AdminCRUD from "./pages/AdminCRUD";
 import Logout from "./pages/Logout";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { Provider } from "react-redux";
 
-export default function App() {
-  return (
-    <BrowserRouter>
+const root = ReactDOM.createRoot(document.getElementById("app"));
+root.render( 
+  <Provider store={store}>
+  <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route element={<ProtectedRoutes />}>
+        <Route path="/register/:userType" element={<Register />} />
+        
           <Route path="/home" element={<UserHome />} />
           <Route path="/gamerecord" element={<GameRecord />} />
           <Route path="/admingamerecord" element={<AdminGameRecord/>}/>
@@ -30,11 +34,9 @@ export default function App() {
           <Route path="/GameUI" element={<GameUI />} />
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admincrud" element={<AdminCRUD />} />
-        </Route>
+        <Route element={<ProtectedRoutes />}></Route>
+        
         <Route path="/logout" element={<Logout />}/>
       </Routes>
     </BrowserRouter>
-  );
-}
-const root = ReactDOM.createRoot(document.querySelector("#app"));
-root.render( <App name="GoBang Easy" />);
+  </Provider>,);

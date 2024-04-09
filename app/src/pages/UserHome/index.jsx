@@ -11,7 +11,7 @@ function Home() {
     if (userNameFromCookies) {
       setUserName(userNameFromCookies);
     }
-  }, []);
+  }, [cookies]);
 
   return (
     <div>

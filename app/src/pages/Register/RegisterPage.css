@@ -4,12 +4,6 @@
     justify-content: space-between;
 }
 
-.registerPage .img-container {
-    flex: 1;
-    padding-right: 1em;
-    background-color: #d9d9d9;
-}   
-
 .registerPage .form {
     flex: 1;
     display: flex;

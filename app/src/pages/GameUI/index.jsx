@@ -4,7 +4,7 @@ import Board from '../../components/board';
 import Control from '../../components/control';
 import ChatBox from '../../components/chatbox';
 
-function GamUI() {
+function GameUI() {
     return (
       <div className="App">
         <Board />
@@ -12,5 +12,5 @@ function GamUI() {
         <ChatBox />
       </div>
     );
-  }
-  export default GameUI;
+}
+export default GameUI;

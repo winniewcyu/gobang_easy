@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { movePiece, tempMove } from './gameSlice';
 import './board.css';
@@ -10,8 +9,8 @@ import { STATUS } from '../status';
 
 const Board = () => {
   const dispatch = useDispatch();
-  const { board, currentPlayer, history, status, size, loading, winner, depth, index } = useSelector((state) => state.game);
-
+  const { board, history, status, loading, winner, depth, index } = useSelector((state) => state.game);
+  //currentPlayer
   const handleClick = (i, j) => {
     if (loading || status !== STATUS.GAMING) return;
     if (board[i][j] === 0) {
@@ -71,7 +70,7 @@ const Board = () => {
             }
             return (
               <div key={j} className={cellClassName} style={cellStyle} onClick={() => handleClick(i, j)}>
-                {cell == 0 ? '' : <div className={pieceClassname}>{ number === 0 ? '' : number}</div>}
+                {cell === 0 ? '' : <div className={pieceClassname}>{ number === 0 ? '' : number}</div>}
                 {isLastCell && <div className="last" />}
               </div>
             )

@@ -15,6 +15,8 @@ game interface:
 
 [ ] Chatbox: // I have translate to js, but not sure if it works
 
+[ ] NewGame: // TODO: Check if room ID valid
+
 [ ] Registrat: // TODO: Check if username already exist
 
 [ ] server: // TODO: link with db @Ivan
@@ -25,7 +27,7 @@ game interface:
 
 [ ] AdminCRUD: change to functional programming instead of class, connect to db 
 
-[x] Login, Home, NewGame, AdminHome, NewGamePublic, NewGamePrivate
+[x] Login, Home, , AdminHome, NewGamePublic, NewGamePrivate
 
 >tick the box if you have finished tasks above, thanks for effective contributing
 
