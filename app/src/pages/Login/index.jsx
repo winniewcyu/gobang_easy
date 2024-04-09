@@ -9,7 +9,7 @@ function LoginPage() {
   
   // State to manage login form inputs
   const [userType, setUserType] = useState("user"); // ["user", "admin"]
-  const [userName, setUserName] = useState("");
+  const [name, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -17,7 +17,7 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
     // check if the email is valid
-    if (!userName) {
+    if (!name) {
       setError("Please enter a username");
       return;
     }
@@ -29,21 +29,23 @@ function LoginPage() {
 
     // Perform API call to login the user
     fetch("http://localhost:8080/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userType, password }),
-    })
-      .then((res) => res.json())
+    method: "POST",
+    headers: {
+    "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, userType, password }), 
+})
+
+      .then((res) => {
+        if (!res.ok){throw new Error(res.statusText);
+        }
+        return res.json();})
       .then((data) => {
         if (data.error) {
           setError(data.error);
         } else {
           // Store the JWT token in the browser's cookies
           cookies.set("auth", data.accessToken, { path: "/" });
-
-          // Redirect the user to the home page
           navigate(`${userType}`);
         }
       })
@@ -72,8 +74,8 @@ function LoginPage() {
           <label>
           Username:
           <input
-            type="userName"
-            value={userName}
+            type="name"
+            value={name}
             placeholder="Type your userName" 
             onChange={(e) => setUserName(e.target.value)}
           />

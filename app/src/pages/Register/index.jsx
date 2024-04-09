@@ -31,15 +31,17 @@ const RegistrationForm = () => {
       return;
     }
 
-    // TODO: Check if username already exist
-    
+    // Check if password exist
+    if (!password || !confirmPassword) {
+      setError("No Passwords");
+      return;
+    }
 
     // Check if password and confirm password match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-
 
     // Construct the user object based on the selected userType
     const user = {

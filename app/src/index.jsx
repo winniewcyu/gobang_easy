@@ -25,7 +25,7 @@ root.render(
         <Route path="/" element={<Login />} />
         <Route path="/register/:userType" element={<Register />} />
         
-          <Route path="/home" element={<UserHome />} />
+          <Route path="/user" element={<UserHome />} />
           <Route path="/gamerecord" element={<GameRecord />} />
           <Route path="/admingamerecord" element={<AdminGameRecord/>}/>
           <Route path="/newgame" element={<NewGame />} />
