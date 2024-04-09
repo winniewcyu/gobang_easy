@@ -1,5 +1,5 @@
 import Cache from "./cache";
-import { FIVE } from "./win";
+import { FIVE } from "./eval";
 
 const MAX = 1000000000;
 export const cache_hits = {

@@ -1,92 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { board_size } from '../config';
 import { STATUS } from '../status';
-
-const initBoard = Array.from({ length: board_size }).map(() => Array.from({ length: board_size }).fill(0));
-
-const initialState = {
-  board: initBoard,
-  aiFirst: true,
-  currentPlayer: null,
-  winner: null,
-  history: [],
-  status: STATUS.IDLE,
-  sessionId: null,
-  size: 19,
-  loading: false,
-  depth: 4, 
-  index: false, 
-  score: 0,
-  path: [],
-  currentDepth: 0,
-};
-
-const worker = { ...initialState };
-const start = async (board_size, aiFirst, depth) => {
-  return new Promise((resolve, reject) => {
-    worker.postMessage({
-      action: 'start',
-      payload: {
-        board_size,
-        aiFirst,
-        depth,
-      },
-    });
-    worker.onmessage = (event) => {
-      const { action, payload } = event.data;
-      if (action === 'start') {
-        resolve(payload);
-      }
-    };
-  })
-};
-
-const move = async (position, depth) => {
-  return new Promise((resolve, reject) => {
-    worker.postMessage({
-      action: 'move',
-      payload: {
-        position,
-        depth,
-      },
-    });
-    worker.onmessage = (event) => {
-      const { action, payload } = event.data;
-      if (action === 'move') {
-        resolve(payload);
-      }
-    };
-  })
-};
-
-const end = async () => {
-  return new Promise((resolve, reject) => {
-    worker.postMessage({
-      action: 'end',
-    });
-    worker.onmessage = (event) => {
-      const { action, payload } = event.data;
-      if (action === 'end') {
-        resolve(payload);
-      }
-    };
-  })
-};
-
-const undo = async () => {
-  return new Promise((resolve, reject) => {
-    worker.postMessage({
-      action: 'undo',
-    });
-    worker.onmessage = (event) => {
-      console.log('undo', event);
-      const { action, payload } = event.data;
-      if (action === 'undo') {
-        resolve(payload);
-      }
-    };
-  })
-};
+import { start, end, move, undo } from '../bridge';
 
 export const startGame = createAsyncThunk('game/start', async ({ board_size, aiFirst, depth }) => {
   const data = await start(board_size, aiFirst, depth);
@@ -107,6 +22,25 @@ export const undoMove = createAsyncThunk('game/undo', async (sessionId) => {
   const data = await undo();
   return data;
 });
+
+const initBoard = Array.from({ length: board_size }).map(() => Array.from({ length: board_size }).fill(0));
+
+const initialState = {
+  board: initBoard,
+  aiFirst: true,
+  currentPlayer: null,
+  winner: null,
+  history: [],
+  status: STATUS.ONLINE,
+  sessionId: null,
+  size: 19,
+  loading: false,
+  depth: 4, 
+  index: false, 
+  score: 0,
+  path: [],
+  currentDepth: 0,
+};
 
 export const gameSlice = createSlice({
   name: 'game',

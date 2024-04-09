@@ -10,7 +10,7 @@ function Logout() {
   cookies.remove("auth", { path: "/" });
 
   // Redirect the user to the login page
-  navigate("/login");
+  navigate("/");
 
   return null;
 }

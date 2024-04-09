@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { movePiece, tempMove } from './gameSlice';
+import { movePiece, tempMove } from '../store/gameSlice';
 import './board.css';
-import bg from './wallpaper1.jpg';
+import bg from '../assets/wallpaper1.jpg';
 import { board_size } from '../config';
 import { STATUS } from '../status';
 

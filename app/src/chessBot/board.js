@@ -1,6 +1,6 @@
 import Zobrist from './zobrist';
 import Cache from './cache';
-import Evaluate, { FIVE } from './win';
+import Evaluate, { FIVE } from './eval';
 
 class Board {
   constructor(size = 19, firstRole = 1) {

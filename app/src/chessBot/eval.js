@@ -8,12 +8,12 @@ export const FOUR = 100000;
 export const FOUR_FOUR = FOUR; // 双冲四
 export const FOUR_THREE = FOUR; // 冲四活三
 export const THREE_THREE = FOUR / 2; // 双三
-export const BLOCK_FOUR = 1900;
+export const BLOCK_FOUR = 1500;
 export const THREE = 1000;
-export const BLOCK_THREE = 190;
+export const BLOCK_THREE = 150;
 export const TWO_TWO = 200; // 双活二
 export const TWO = 100;
-export const BLOCK_TWO = 19;
+export const BLOCK_TWO = 15;
 export const ONE = 10;
 export const BLOCK_ONE = 1;
 

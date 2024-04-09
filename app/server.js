@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json());
 const Game = require('./src/backend/GameHandlers.js');
 
-// TODO: link with db
 mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const User = mongoose.model('User', new mongoose.Schema({
@@ -20,7 +19,6 @@ const User = mongoose.model('User', new mongoose.Schema({
   password: String,
   online: Boolean,
   score: Number,
-  highestscore: Number,
 }));
 
 User.findOne({ userType: "Admin" })
@@ -138,8 +136,7 @@ app.get('/user/:username',  (req, res) => {
       "(Hashed) password: "+ data.password + "\n" +
       "userType: "+ data.userType + "\n" +
       "online: "+ data.online + "\n" +
-      "score: "+ data.score + "\n" +
-      "highestscore: "+ data.highestscore);
+      "score: "+ data.score);
       
       res.contentType('text/plain')
       res.status(200).send(RMess);
@@ -164,8 +161,7 @@ app.get('/alluser',  (req, res) => {
       "(Hashed) password: "+ data[i].password + "\n" +
       "userType: "+ data[i].userType + "\n" +
       "online: "+ data[i].online + "\n" +
-      "score: "+ data[i].score + "\n" +
-      "highestscore: "+ data[i].highestscore
+      "score: "+ data[i].score
       )
 
       res.contentType('text/plain')
@@ -233,7 +229,7 @@ app.delete('/user/:username', (req, res) => {
 1. Read users with top 5 scores
 */
 app.get('/top5user',  (req, res) => {
-  User.find({userType: "User"}).sort({ highestscore: -1 }).limit(5).exec()
+  User.find({userType: "User"}).sort({ score: -1 }).limit(5).exec()
   .then((data)=>{
     if(!data){
       const RMess = 'No users created before';
@@ -242,7 +238,7 @@ app.get('/top5user',  (req, res) => {
     }
     else{
       const RMess = data
-          .map((user, index) => `${user.name}\n${user.highestscore}`)
+          .map((user) => `${user.name}\n${user.score}`)
           .join('\n');
         res.contentType('text/plain');
         res.status(200).send(RMess);

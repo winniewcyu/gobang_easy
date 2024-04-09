@@ -76,8 +76,8 @@ export const move = (position, depth) => {
 };
 
 export const end = () => {
-    // TODO: fetch record to user db
-    return getBoardData();
+  // TODO
+  return getBoardData();
 };
 
 export const undo = () => {
