@@ -3,6 +3,7 @@ import './GameUI.css';
 import Board from '../../components/board';
 import Control from '../../components/control';
 import ChatBox from '../../components/chatbox';
+import ChatBoxJS from '../../components/chatboxJS';
 
 function GameUI() {
     return (
@@ -10,6 +11,7 @@ function GameUI() {
         <Board />
         <Control />
         <ChatBox />
+        <ChatBoxJS />
       </div>
     );
 }
