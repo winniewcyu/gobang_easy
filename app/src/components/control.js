@@ -103,69 +103,71 @@ function Control() {
     }
   }, [dispatch, board_size, playerChoice, depth]);
 
+  const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+  const reportedTime = startTime ? new Intl.DateTimeFormat('en-US', timeOptions).format(new Date(startTime)) : 'N/A';
+
   const showStartButtons = status === STATUS.ONLINE || status === STATUS.OVER;
   const showRetractAndResign = playerChoice !== null && status === STATUS.GAMING;
-
-  return (
-    <div className="control">
-    <div className="game-info">
-        <div>Current Player: {currentPlayer} ({stoneType})</div>
-        <div>Start Time: {startTime ? new Date(startTime).toLocaleTimeString() : 'N/A'}</div>
-        <div>Main Time Left: {isElegantTime ? '00:00' : Math.floor(mainTime / 1000)} seconds</div>
-        <div>Time for Current Move: {formattedMoveTime} </div>
-        <div>Elasped Time: {formattedTime} </div>
-        <div></div>
-      </div>
-      <div className="buttons">
-        {showStartButtons && (
-          <>
-            <Button
-              className="button"
-              type="primary"
-              onClick={chooseBlack}
-              disabled={loading || status !== STATUS.ONLINE}
-            >
-              Start as Black
-            </Button>
-            <Button
-              className="button"
-              type="primary"
-              onClick={chooseWhite}
-              disabled={loading || status !== STATUS.ONLINE}
-            >
-              Start as White
-            </Button>
-          </>
-        )}
-        {showRetractAndResign && (
-          <>
-            <Button
-              className="button"
-              type="primary"
-              onClick={undo}
-              disabled={loading || status !== STATUS.GAMING || history.length === 0}
-            >
-              Retract
-            </Button>
-            <Button
-              className="button"
-              type="primary"
-              onClick={end}
-              disabled={loading || status !== STATUS.GAMING}
-            >
-              Resign
-            </Button>
-          </>
-        )}
-      </div>
-      <div className="status">
-        <div className="status-item">position: {JSON.stringify(path[0])}</div>
-        <div className="status-item">placing history: {JSON.stringify(history.map((h) => [h.i, h.j]))}</div>
-        <div className="status-item">Black player score: {score.black}</div>
-        <div className="status-item">White player score: {score.white}</div>
-      </div>
+return (
+  <div className="control">
+    <div className="buttons">
+      {showStartButtons && (
+        <>
+          <Button
+            className="button"
+            type="primary"
+            onClick={chooseBlack}
+            disabled={loading || status !== STATUS.ONLINE}
+          >
+            Start as Black
+          </Button>
+          <Button
+            className="button"
+            type="primary"
+            onClick={chooseWhite}
+            disabled={loading || status !== STATUS.ONLINE}
+          >
+            Start as White
+          </Button>
+        </>
+      )}
+      {showRetractAndResign && (
+        <>
+          <Button
+            className="button"
+            type="primary"
+            onClick={undo}
+            disabled={loading || status !== STATUS.GAMING || history.length === 0}
+          >
+            Retract
+          </Button>
+          <Button
+            className="button"
+            type="primary"
+            onClick={end}
+            disabled={loading || status !== STATUS.GAMING}
+          >
+            Resign
+          </Button>
+        </>
+      )}
     </div>
-  );
+    <div className="game-info">
+      <div>Current Player: {currentPlayer} ({stoneType})</div>
+      <div>Start Time: {reportedTime}</div>
+      <div>Main Time Left: {isElegantTime ? '00:00' : Math.floor(mainTime / 1000)} seconds</div>
+      <div>Time for Current Move: {formattedMoveTime} </div>
+      <div>Elapsed Time: {formattedTime} </div>
+      <div></div>
+    </div>
+    <div className="status">
+      <div className="status-item">position: {JSON.stringify(path[0])}</div>
+      <div className="status-item">placing history: {JSON.stringify(history.map((h) => [h.i, h.j]))}</div>
+      <div className="status-item">Black player score: {score.black}</div>
+      <div className="status-item">White player score: {score.white}</div>
+    </div>
+  </div>
+);
 }
 
 export default Control;
