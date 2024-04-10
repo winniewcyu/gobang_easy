@@ -1,35 +1,8 @@
 # gobang_easy
 CSCI3100 Group B5 Spring2024
-Latest Update: 07/04/2024
+Latest Update: 10/04/2024
 
 Welcome to the CSCI3100 Project: Gobang Easy. This document provides an overview of the project's structure, key components, and development process. 
-
-
-## Internal Notes: To be deleted after finished
-
-game logic:
-
-[ ] moveListener: //TODO fetch after end game
-
-game interface:
-
-[ ] Chatbox: // I have translate to js, but not sure if it works
-
-[ ] NewGame: // TODO: Check if room ID valid
-
-[ ] Registrat: // TODO: Check if username already exist
-
-[ ] server: // TODO: link with db @Ivan
-
-[ ] GameUI: chatbox yet to be confirmed, control need to fetch many game info, also require roomID conditioning
-
-[ ] GameRecord: changing hard code to really functioning codes
-
-[ ] AdminCRUD: change to functional programming instead of class, connect to db 
-
-[x] Login, Home, , AdminHome, NewGamePublic, NewGamePrivate
-
->tick the box if you have finished tasks above, thanks for effective contributing
 
 ## Credit
 
@@ -45,7 +18,7 @@ This project takes reference on [gobang] (https://github.com/lihongxun945/gobang
 ## Steps to start the server
 
 1. Suppose you have finished steps 1 and 2 to run on your device
-2. `npm install express body-parser mongoose bcrypt`
+2. `npm install`
 3. `node server.js`
 
 ## Directory Structure and Functionality 
@@ -56,26 +29,76 @@ Below is an outline of the project's directory structure along with a descriptio
   - `/src` 
     - `/components` - Stores reusable UI components (images) used across different parts of the application.
     - `/pages` - Contains build and deployment scripts to automate parts of the development process.
-    - `/chessBot` - Consists of code for win checking, reusable as end game mechanism
+    - `/store` - Store game condition, significantly contribute to entire run of application.
+    - `/chessBot` - Consists of code for win checking, reusable as end game mechanism.
+    - `/assests` - Contain wallpaper of game board.
 
-## System Building Procedure //to_be_justify
+## System Building Procedure 
 
 The system was built using the following procedure and key components:
 
-1. **Setup Development Environment** - Configured the local development `localhost:3000` environment with react.
-2. **Database Integration** - ?mongodb/posgresql? has been implemented for robust data management and retrieval. Record of upload can be inserted and deleted by logged in users.
+1. **Setup Development Environment** - Configured the local development `localhost:3000` environment with react and used node.js with mongodb for server setup.
+2. **Database Integration** - Mongodb has been implemented for robust data management and retrieval. Record of upload can be inserted and deleted by logged in users.
 3. **Coding Standards** - Followed best practices in coding standards to ensure readability and maintainability.
 4. **Version Control** - Utilized Git for version control, with systematic commits and descriptive messages.
 5. **Testing and Debugging** - Manually testing whether codes are implemented correctly to ensure the stability and reliability of the system.
-6. **Deployment** - Deployed the application on the ?github? server using continuous deployment pipelines.
 
 Compared to the streamlined model, this project employs the prototyping method, which emphasizes iterative implementation and debugging.
 
 ## Accomplishments and Bonus Request //to_be_amend
 
+[x] **Database Intergration** - Integrate a global database, i.e: MongoDB
 
-*BONUS*
+[ ] **Two human players** - Support two-human player game. Players are connected via a server (local), and each player has a separate game window.
 
+[ ] **Random Player** - Support the game between a human player and a random player
+
+[ ] **User signup** - Create a new user profile. Only user name and password are needed.
+
+[ ] **User Login & Logout** - Let users login and logout in your game. Users should be able to conduct more operations after login.
+
+[ ] **View Game Records** - Users can view the game record with the following attributes: start time, elapsed time, player names, winner, and the final Goboard with stones.
+
+[x] **Upon Login** - Upon login, show the main page with two panels: “start new game”, “view the game 
+records”.
+
+[ ] **During the game** - During the game, display a 19x19 Goboard, current player and its stone type, all player scores, start time, elapsed time. The 
+information should be presented clearly and 
+correctly.
+
+[x] **Player move** - After a player places a stone, the stone is rendered correctly. Meanwhile, different players have different stones.
+
+[x] **Gameover** - When a player forms five consecutive pieces of the same color on the horizontal, vertical, and diagonal directions, the game ends. The game returns to the main page.
+
+[ ] **Retract a false move** - In a game of two human players, one player can retract a false move after seeking agreement from another human player.
+
+[x] **Chat System** - Players are able to send and receive chat messages from each other during the game.
+
+**BONUS**
+
+[ ] **Add friends and further invite friends to a game**
+
+[x] **Early Termination of the Game (e.g., “open 4” 活四, double "open 3s" 雙活三)**
+
+[ ] **Time control. For example, each player has a main time limit, say 20 minutes to make decisions on all their moves. Once a player uses up their main time, they enter into the elegant time period. This is often a series of fixed time intervals, like 30 seconds per move.** 
+
+[ ] **detect and disallow (some of) the forbidden moves**
+
+[x] **Implement Game AI with (some of) the following techniques: Rule-based AI - Advanced Techniques, e.g. alpha-beta pruning.**
+
+[x] **Implement admin users that can view user records and delete users.**
+
+[ ] **Sound effects of the game**
+
+[x] **Good UI Design**
+
+**Extra Bonus**
+
+[x] **Allow player to choose between black or white stone.**
+
+[x] **Password of every users are hashed before storing to db.**
+
+[ ] **Wallpaper of game board can be chosen between three options.**
 
 ## Partially Completed Work //to_be_amend
 
