@@ -12,6 +12,7 @@ function NewGamePublic () {
         <>
             <div style={{textAlign:"center"}}>
                 <br/>
+                <ul style={{textAlign:"center"}}><a href="/user" class="btn btn-primary">Back to Home</a></ul>
                 <ul style={{textAlign:"center", fontSize: 40}}>Please wait for a moment.......</ul>
                 <div class="spinner-border"></div>
                 <button onClick={() => setOpponent('machine')}>Play against Machine</button>

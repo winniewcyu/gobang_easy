@@ -12,7 +12,7 @@ class NewGame extends React.Component {
         <pre/>
         <a href="/newgameprivate" class="btn btn-dark" style={{width:'300px'}}>Private Match</a>
         <pre/>
-        <a href="/home" class="btn btn-warning" style={{width:'300px'}}>Back to Home</a>
+        <a href="/user" class="btn btn-warning" style={{width:'300px'}}>Back to Home</a>
         </div>
         </>
         );

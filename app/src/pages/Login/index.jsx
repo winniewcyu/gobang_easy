@@ -44,7 +44,7 @@ function LoginPage() {
         // Store the JWT token in the browser's cookies
         cookies.set("auth", data.token, { path: "/" });
         if(userType === "Admin") navigate("/admin");
-        else navigate("/home");
+        else navigate("/user");
       }
     })
     .catch((error) => {

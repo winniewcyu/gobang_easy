@@ -17,9 +17,9 @@ mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useU
 const User = mongoose.model('User', new mongoose.Schema({
   userType: String,
   name: String,
-  email: String,
+  //email: String,
   password: String,
-  online: Boolean,
+  online: Boolean,          //0: before login & after logout, 1: after login & before logout
   score: Number
 }));
 
@@ -86,7 +86,7 @@ app.post('/register', async (req, res) => {
     }
     else {
       const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-      const user = new User({userType: "User", name, email, password: hashedPassword, online: false, score: 100});
+      const user = new User({userType: "User", name, password: hashedPassword, online: false, score: 100});
       user.save();
       res.status(200).json({success: true});
     }
@@ -190,7 +190,7 @@ app.get('/user/:username',  (req, res) => {
     }
     else{
       RMess += ("username: "+ data.name + "\n" +
-      "email: "+ data.email + "\n" +
+      //"email: "+ data.email + "\n" +
       "(Hashed) password: "+ data.password + "\n" +
       "userType: "+ data.userType + "\n" +
       "online: "+ data.online + "\n" +
@@ -215,7 +215,7 @@ app.get('/alluser',  (req, res) => {
     else{
       for (let i=0; i<data.length; i++)
       RMess += (i+1 +". username: "+ data[i].name + "\n" +
-      "email: "+ data[i].email + "\n" +
+      //"email: "+ data[i].email + "\n" +
       "(Hashed) password: "+ data[i].password + "\n" +
       "userType: "+ data[i].userType + "\n" +
       "online: "+ data[i].online + "\n" +

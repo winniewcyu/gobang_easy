@@ -9,7 +9,7 @@ const RegistrationForm = () => {
   const { userType } = useParams();
   const [error, setError] = useState("");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  //const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -25,11 +25,11 @@ const RegistrationForm = () => {
     }
 
     // check if the email is valid
-    let emailRegex = /\S+@\S+\.\S+/;
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email");
-      return;
-    }
+    //let emailRegex = /\S+@\S+\.\S+/;
+    //if (!emailRegex.test(email)) {
+    //  setError("Please enter a valid email");
+    //  return;
+    //}
 
     // Check if password exist
     if (!password || !confirmPassword) {
@@ -47,7 +47,7 @@ const RegistrationForm = () => {
     const user = {
       userType,
       name,
-      email,
+      //email,
       password,
     };
 
@@ -74,18 +74,11 @@ const RegistrationForm = () => {
           <div className="header">Register</div>
           <div className="form-grid">
             <label htmlFor="name">Name:</label>
-            <label htmlFor="email">Email:</label>
             <input
               type="text"
               placeholder="Type your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Type your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="password">Password:</label>
             <label htmlFor="confirmPassword">Confirm Password:</label>

@@ -53,9 +53,9 @@ Compared to the streamlined model, this project employs the prototyping method, 
 
 [ ] **Random Player** - Support the game between a human player and a random player
 
-[ ] **User signup** - Create a new user profile. Only user name and password are needed.
+[x] **User signup** - Create a new user profile. Only user name and password are needed.
 
-[ ] **User Login & Logout** - Let users login and logout in your game. Users should be able to conduct more operations after login.
+[x] **User Login & Logout** - Let users login and logout in your game. Users should be able to conduct more operations after login.
 
 [ ] **View Game Records** - Users can view the game record with the following attributes: start time, elapsed time, player names, winner, and the final Goboard with stones.
 
