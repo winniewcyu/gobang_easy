@@ -63,8 +63,7 @@ Compared to the streamlined model, this project employs the prototyping method, 
 records”.
 
 [ ] **During the game** - During the game, display a 19x19 Goboard, current player and its stone type, all player scores, start time, elapsed time. The 
-information should be presented clearly and 
-correctly.
+information should be presented clearly and correctly.
 
 [x] **Player move** - After a player places a stone, the stone is rendered correctly. Meanwhile, different players have different stones.
 
@@ -80,7 +79,7 @@ correctly.
 
 [x] **Early Termination of the Game (e.g., “open 4” 活四, double "open 3s" 雙活三)**
 
-[ ] **Time control. For example, each player has a main time limit, say 20 minutes to make decisions on all their moves. Once a player uses up their main time, they enter into the elegant time period. This is often a series of fixed time intervals, like 30 seconds per move.** 
+[x] **Time control. For example, each player has a main time limit, say 20 minutes to make decisions on all their moves. Once a player uses up their main time, they enter into the elegant time period. This is often a series of fixed time intervals, like 30 seconds per move.** 
 
 [ ] **detect and disallow (some of) the forbidden moves**
 
@@ -88,7 +87,7 @@ correctly.
 
 [x] **Implement admin users that can view user records and delete users.**
 
-[ ] **Sound effects of the game**
+[x] **Sound effects of the game**
 
 [x] **Good UI Design**
 
@@ -98,7 +97,7 @@ correctly.
 
 [x] **Password of every users are hashed before storing to db.**
 
-[ ] **Wallpaper of game board can be chosen between three options.**
+[x] **Wallpaper of game board can be chosen between three options.**
 
 ## Partially Completed Work //to_be_amend
 
