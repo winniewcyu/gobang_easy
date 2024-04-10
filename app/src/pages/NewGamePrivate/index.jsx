@@ -1,27 +1,93 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate} from 'react-router-dom';
+import Cookies from "universal-cookie";
 
 function NewGamePrivate() {
     const [opponent, setOpponent] = useState(null);
-    const [roomID, setRoomID] = useState('');
+    const [RoomID, setRoomID] = useState('');
     const [redirectToGame, setRedirectToGame] = useState(false);
-
+    const cookies = new Cookies();
+    const username = cookies.get('auth',{ path: "/" });
     const handleJoin = () => {
+        
         // Validate roomID here
-        if (roomID) {
+        if (RoomID) {
             // TODO: check if the roomID currently active
-            setRedirectToGame(true);
+            fetch("http://localhost:8080/existingroom/" + RoomID, {
+                method: "GET", 
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.text(); // Return the text Promise
+                } 
+                else {
+                    throw new Error(res.statusText); // Throw an error for non-200 status
+                }
+            })
+            .then((responseText) => {
+                alert(responseText); // Display the resolved response text
+                //Perform the navigation here
+                setRedirectToGame(true);
+            })
+            .catch((error) => {
+                alert(error.message); // Display the error message
+            });
         }
     };
 
     const handleCreate = () => {
-        // Create room ID
-        setRoomID(Math.random().toString(36).substring(2, 7)); // Generate a random room ID
-        setRedirectToGame(true);
+        if (opponent === 'machine'){
+            fetch("http://localhost:8080/game/machineprivate", {
+                method: "PUT", 
+                headers: {"Content-Type": "application/json",},
+                body: JSON.stringify({ username: `${username}` }),
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.text(); // Return the text Promise
+                } 
+                else {
+                    throw new Error(res.statusText); // Throw an error for non-200 status
+                }
+            })
+            .then((responseText) => {
+                alert(responseText); // Display the resolved response text
+                setRoomID(responseText.match(/\d+/));
+                //Perform the navigation here
+                setRedirectToGame(true);
+            })
+            .catch((error) => {
+                alert(error.message); // Display the error message
+            });
+        }
+        else {
+            fetch("http://localhost:8080/game/humanprivate", {
+                method: "PUT", 
+                headers: {"Content-Type": "application/json",},
+                body: JSON.stringify({ username: `${username}` }),
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.text(); // Return the text Promise
+                } 
+                else {
+                    throw new Error(res.statusText); // Throw an error for non-200 status
+                }
+            })
+            .then((responseText) => {
+                alert(responseText); // Display the resolved response text
+                //Perform the navigation here
+                setRoomID(responseText.match(/\d+/));
+                setRedirectToGame(true);
+            })
+            .catch((error) => {
+                alert(error.message); // Display the error message
+            });
+        }
     };
 
     if (redirectToGame) {
-        return <Navigate to={{ pathname: "/GameUI", state: { opponent: opponent, roomID: roomID } }} />
+        return <Navigate to={{ pathname: "/GameUI", state: { opponent: opponent, RoomID: RoomID } }} />
     }
 
     return (

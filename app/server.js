@@ -9,17 +9,14 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
-//const Game = require('./src/backend/GameHandlers.js');
-
-// TODO: link with db
-mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/myapp');
 
 const User = mongoose.model('User', new mongoose.Schema({
   userType: String,
   name: String,
-  //email: String,
+  email: String,
   password: String,
-  online: Boolean,          //0: before login & after logout, 1: after login & before logout
+  online: Boolean,
   score: Number
 }));
 
@@ -37,11 +34,11 @@ const Game = mongoose.model('Game', new mongoose.Schema({
   Player2: String,
   Player1Records: [{
     type : Number,
-    default : 100
+    default : 0
   }],
   Player2Records: [{
     type : Number,
-    default : 100
+    default : 0
   }],
   Winner: String,
   Movement: [{
@@ -50,6 +47,8 @@ const Game = mongoose.model('Game', new mongoose.Schema({
   }]
 }));
 
+
+//Tested
 User.findOne({ userType: "Admin" })
 .then((data)=>{
     if(!data)
@@ -75,6 +74,7 @@ User.findOne({ userType: "Admin" })
     else console.log("Default admin account is already created");
 })
 
+//Tested
 app.post('/register', async (req, res) => {
   const {name, email, password} = req.body;
 
@@ -86,13 +86,14 @@ app.post('/register', async (req, res) => {
     }
     else {
       const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-      const user = new User({userType: "User", name, password: hashedPassword, online: false, score: 100});
+      const user = new User({userType: "User", name, email, password: hashedPassword, online: false, score: 100});
       user.save();
       res.status(200).json({success: true});
     }
   })
 });
 
+//Tested
 app.post('/login', async (req, res) => {
   const {userType, userName, password} = req.body;
 
@@ -122,7 +123,7 @@ app.post('/login', async (req, res) => {
 })
 });
 
-
+//Tested
 app.post('/logout', async (req, res) => {
   const {userName}= req.body;
   User.findOneAndUpdate(
@@ -136,7 +137,7 @@ app.post('/logout', async (req, res) => {
   })
 })
 //CRUD stored users
-//C
+//C //Tested
 app.post('/adminuser/', (req, res) => {
   const username = req.body.username;
   const password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
@@ -177,7 +178,7 @@ app.post('/adminuser/', (req, res) => {
 })
 
 
-//R
+//R //Tested
 app.get('/user/:username',  (req, res) => {
   const username = req.params.username;
   let RMess = "";
@@ -190,7 +191,7 @@ app.get('/user/:username',  (req, res) => {
     }
     else{
       RMess += ("username: "+ data.name + "\n" +
-      //"email: "+ data.email + "\n" +
+      "email: "+ data.email + "\n" +
       "(Hashed) password: "+ data.password + "\n" +
       "userType: "+ data.userType + "\n" +
       "online: "+ data.online + "\n" +
@@ -203,6 +204,7 @@ app.get('/user/:username',  (req, res) => {
   })
 })
 
+//Tested
 app.get('/alluser',  (req, res) => {
   let RMess = "";
   User.find({})
@@ -215,7 +217,7 @@ app.get('/alluser',  (req, res) => {
     else{
       for (let i=0; i<data.length; i++)
       RMess += (i+1 +". username: "+ data[i].name + "\n" +
-      //"email: "+ data[i].email + "\n" +
+      "email: "+ data[i].email + "\n" +
       "(Hashed) password: "+ data[i].password + "\n" +
       "userType: "+ data[i].userType + "\n" +
       "online: "+ data[i].online + "\n" +
@@ -230,7 +232,7 @@ app.get('/alluser',  (req, res) => {
 })
 
 
-//U
+//U //Tested
 app.put('/user/:username', (req, res) => {
   const username = req.params.username;
   const newscore = req.body.newscore;
@@ -260,7 +262,7 @@ app.put('/user/:username', (req, res) => {
 })
 
 
-//D
+//D //Tested
 app.delete('/user/:username', (req, res) => {
   const username = req.params.username;
   User.find({name: {$eq: username}})
@@ -287,7 +289,7 @@ app.delete('/user/:username', (req, res) => {
 
 /* Backend functions to be added:
 1. Read users with top 5 scores
-*/
+*/ //Tested
 app.get('/top5user',  (req, res) => {
   User.find({userType: "User"}).sort({ score: -1 }).limit(5).exec()
   .then((data)=>{
@@ -315,53 +317,61 @@ app.get('/top5user',  (req, res) => {
 })
 
 /*
-2. Read users who are online
+2. Check whether a particular user is online and not currently playing a game
 */
 app.get('/onlineuser',  (req, res) => {
+  const username = req.body.username;
   let RMess = "";
-  User.find({online: true})
+  User.findOne({userType: "User", name: username, online: true})
   .then((data)=>{
     if(!data){
-      RMess += ('No users are online');
+      RMess += ('The user doesnt exists or offline');
       res.contentType('text/plain');
-      res.status(404).send(RMess);
+      res.status(400).send(RMess);
     }
     else{
-      for (let i=0; i<data.length; i++)
-      RMess += (i+1 +". username: "+ data[i].name)
-      res.contentType('text/plain')
-      res.status(200).send(RMess);
-
+      Game.findOne({$or: [{ Player1: username }, { Player2: username }], Status: true})
+      .then((data1)=>{
+        if(!data1){
+          res.contentType('text/plain')
+          res.status(200);
+        }
+        else {
+          RMess += ('The user is busy now');
+          res.contentType('text/plain');
+          res.status(401).send(RMess);
+        }
+      })
     }
   })
 })
 
 /* backend functions:
-Initialized GameRecord (Start playing with machine private mode)*/
+3. Initialized GameRecord (Start playing with machine private mode)*/
 app.put('/game/machineprivate', (req, res) => {
   const username = req.body.username;
   const timestamp = Date.now();
   const date = new Date(timestamp);
   const ExistingTime = date.toLocaleString();
   const RoomID = Math.floor(Math.random() * (19999 - 10000 + 1)) + 10000;
-  let NewMachinePrivate = new Game({
-    GameID: RoomID,            
+  let NewMachinePrivate = new Game({      
+    GameID: RoomID,      
     GameMode: "Private",
     Status: true,            
     StartTime: ExistingTime,
     Player1: username,
     Player2: "Machine",
-    Player1Records: 100,
-    Player2Records: 100,
+    Player1Records: 0,
+    Player2Records: 0,
     });
 
     //Saving this to database
     NewMachinePrivate
     .save()
     .then(() => {
-      console.log("Start Game (Play with machine private mode)");
+      console.log(RoomID);
       res.contentType('text/plain')
-      res.status(200).send("Create a game successfully");
+      res.status(200).send("RoomID: "+RoomID);
     })
     .catch((error) => {
       console.log("Error exists in starting game");
@@ -372,31 +382,66 @@ app.put('/game/machineprivate', (req, res) => {
 
 })
 
-// Initialized GameRecord (Start playing with machine public mode)
+// 4. Initialized GameRecord (Start playing with machine public mode)
 app.put('/game/machinepublic', (req, res) => {
   const username = req.body.username;
   const timestamp = Date.now();
   const date = new Date(timestamp);
   const ExistingTime = date.toLocaleString();
   const RoomID = Math.floor(Math.random() * (29999 - 20000 + 1)) + 20000;
-  let NewMachinePrivate = new Game({
-    GameID: RoomID,            
+  let NewMachinePublic = new Game({ 
+    GameID: RoomID,           
     GameMode: "Public",
     Status: true,            
     StartTime: ExistingTime,
     Player1: username,
     Player2: "Machine",
-    Player1Records: 100,
-    Player2Records: 100,
+    Player1Records: 0,
+    Player2Records: 0,
     });
 
     //Saving this to database
-    NewMachinePrivate
+    NewMachinePublic
     .save()
     .then(() => {
-      console.log("Start Game (Play with machine public mode)");
+      console.log(RoomID);
       res.contentType('text/plain')
-      res.status(200).send("Create a game successfully");
+      res.status(200).send("Create a game successfully " + RoomID);
+    })
+    .catch((error) => {
+      console.log("Error exists in starting game");
+      console.log(error);
+      res.contentType('text/plain')
+      res.status(400).send("Error exists in starting game");
+    });
+
+})
+
+// 5. Initialized Gameboard (Start playing with human private mode before inviting)
+app.put('/game/humanprivate', (req, res) => {
+  const username = req.body.username;
+  const timestamp = Date.now();
+  const date = new Date(timestamp);
+  const ExistingTime = date.toLocaleString();
+  const RoomID = Math.floor(Math.random() * (39999 - 30000 + 1)) + 30000;
+  let NewHumanPrivate= new Game({ 
+    GameID: RoomID,           
+    GameMode: "Private",
+    Status: true,            
+    StartTime: ExistingTime,
+    Player1: username,
+    Player2: undefined,
+    Player1Records: 0,
+    Player2Records: 0,
+    });
+
+    //Saving this to database
+    NewHumanPrivate
+    .save()
+    .then(() => {
+      console.log(RoomID);
+      res.contentType('text/plain')
+      res.status(200).send("Create a game successfully " +RoomID);
     })
     .catch((error) => {
       console.log("Error exists in starting game");
@@ -407,25 +452,101 @@ app.put('/game/machinepublic', (req, res) => {
 
 })
 
-// Initialized Gameboard (Start playing with human private mode)
+// 6. Initialized Gameboard (Start playing with human public mode after pairing)
+app.put('/game/humanpublic', (req, res) => {
+  const username = req.body.username;
+  const anotherplayer = req.body.anotherplayer;
+  const timestamp = Date.now();
+  const date = new Date(timestamp);
+  const ExistingTime = date.toLocaleString();
+  const RoomID = Math.floor(Math.random() * (49999 - 40000 + 1)) + 40000;
+  let NewHumanPublic = new Game({ 
+    GameID: RoomID,           
+    GameMode: "Public",
+    Status: true,            
+    StartTime: ExistingTime,
+    Player1: username,
+    Player2: anotherplayer,
+    Player1Records: 0,
+    Player2Records: 0,
+    });
 
-// Initialized Gameboard (Start playing with human public mode after pairing)
+    //Saving this to database
+    NewHumanPublic
+    .save()
+    .then(() => {
+      console.log(RoomID);
+      res.contentType('text/plain')
+      res.status(200).send("Create a game successfully " + RoomID);
+    })
+    .catch((error) => {
+      console.log("Error exists in starting game");
+      console.log(error);
+      res.contentType('text/plain')
+      res.status(400).send("Error exists creating a game");
+    });
 
-// Pairing 
+})
 
-// Check the existing room id
-app.get('/existingroom',  (req, res) => {
-  const RoomID = req.body.RoomID;
-  let RMess = "";
-  Game.findOne({GameID: RoomID, GameMode: "Public", Status: true})
+// 7. Pairing for public human
+app.post('/pairing', async (req, res) => {
+  const username = req.body.username;
+  Pairing.findOne({})
   .then((data)=>{
     if(!data){
-      RMess += ('This Room ID is not existed');
-      res.contentType('text/plain');
-      res.status(404).send(RMess);
+      let newPair = new Pairing({
+        name: username
+        });
+    
+        //Saving this to database
+        newPair
+        .save()
+        .then(() => {
+          console.log("You are added to Waiting Room");
+          res.contentType('text/plain');
+          res.status(201).send("Waiting Room");
+        })
+        .catch((error) => {
+          console.log("You are failed to added to Waiting Room");
+          console.log(error);
+        });
     }
     else{
-      RMess += ("This Room ID is existed");
+      Pairing.findOneAndDelete({})
+        .then((data) => {
+          res.contentType('text/plain');
+          res.status(200).send(data.name);
+        })
+        .catch((error) => console.log(error));
+
+    }
+  })
+})
+
+// 8. Give up Pairing
+app.delete('/giveuppairing', async (req, res) => {
+  Pairing.findOneAndDelete({})
+    .then((data) => {
+      let Mess = "You have given up pairing with opponent";
+      res.contentType('text/plain');
+      res.status(201).send(Mess);
+    })
+    .catch((error) => console.log(error));
+})
+
+// 9. Check whether a room id is valid or existed
+app.get('/existingroom/:RoomID',  (req, res) => {
+  const RoomID = req.params.RoomID;
+  let RMess = "";
+  Game.findOne({GameID: RoomID, GameMode: "Private", Status: true})
+  .then((data)=>{
+    if(!data){
+      RMess += ('This Room ID is not existed or available');
+      res.contentType('text/plain');
+      res.status(400).send(RMess);
+    }
+    else{
+      RMess += ("You are now joining the room" + RoomID);
       res.contentType('text/plain')
       res.status(200).send(RMess);
 
@@ -433,13 +554,83 @@ app.get('/existingroom',  (req, res) => {
   })
 })
 
-// Read Game History of a user
+// 10. Read Game History of a user
+app.get('/game/history',  (req, res) => {
+  const username = req.body.username;
 
-// End the game (Win/Someone ends earlier)
+  let RMess = "";
+  Game.find({$or: [{ Player1: username }, { Player2: username }], Status: false})
+  .then((data)=>{
+    if(!data){
+      RMess += ('You have no gaming history');
+      res.contentType('text/plain');
+      res.status(404).send(RMess);
+    }
+    else{
+      for (let i=0; i<data.length; i++)
+      RMess += (data[i].StartTime + "\n" +
+      data[i].FinishTime + "\n" +
+      data[i].Player1 + data[i].Player2 +"\n" +
+      data[i].Winner + "\n" +
+      data[i].Player1Records + data[i].Player2Records +"\n" +
+      data[i].Movement + "\n\n"
+      )
+      res.contentType('text/plain')
+      res.status(200).send(RMess);
+
+    }
+  })
+})
+
+// 11. Someone wins/draw (record movements and result)
+app.post('/game/ends', async (req, res) => {
+  const RoomID = req.body.RoomID;
+  const winner = req.body.winner;
+  const Player1Records = req.body.Player1Records;
+  const Player2Records = req.body.Player2Records;
+  const Movement = req.body.Movement;
+  const timestamp = Date.now();
+  const date = new Date(timestamp);
+  const ExistingTime = date.toLocaleString();
+  let Mess = "";
+  Game.findOneAndUpdate(
+    {GameID: RoomID},
+    {Status: 0, FinishTime: ExistingTime, Player1Records: Player1Records, 
+      Player2Records: Player2Records, Winner:winner, Movement: Movement},
+    {new: true})
+  .then((data)=>{
+    console.log("Update the Game Record" + RoomID);
+    Mess += "Update the Game Record" + RoomID + "\n";
+    User.findOneAndUpdate(
+      {userType: "User", name: data.Player1},
+      {$push: { score: Player1Records }},
+      {new: true})
+    .then((dataU1)=>{
+      console.log("Update the Player 1's score");
+      Mess += "Update the Player 1's score\n";
+      User.findOneAndUpdate(
+        {userType: "User", name: data.Player2},
+        {$push: { score: Player2Records }},
+        {new: true})
+      .then((dataU2)=>{
+        console.log("Update the Player 2's score");
+        Mess += "Update the Player 2's score\n";
+        res.contentType('text/plain')
+        res.status(200).send(Mess);
+      })
+    
+    })
+  
+  })
 
 
-// 
+  
+})
+
+
+// 12. In Waiting Home, listen to database to pair to a opponent in public mode
 
 
 
 app.listen(8080, () => console.log('Server running on http://localhost:8080'));
+
