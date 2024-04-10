@@ -1,15 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { movePiece, tempMove } from '../store/gameSlice';
 import './board.css';
-import bg from '../assets/wallpaper1.jpg';
+import bg1 from '../assets/wallpaper1.jpg';
+import bg2 from '../assets/wallpaper2.jpg';
+import bg3 from '../assets/wallpaper3.jpg';
 import { board_size } from '../config';
 import { STATUS } from '../status';
-
+import { Button } from 'antd';
 
 const Board = () => {
   const dispatch = useDispatch();
   const { board, history, status, loading, winner, depth, index } = useSelector((state) => state.game);
+  const [bg, setBg] = useState(bg1);
+  
+  const changeBg = () => {
+    if (bg === bg1) {
+      setBg(bg2);
+    } else if (bg === bg2) {
+      setBg(bg3);
+    } else {
+      setBg(bg1);
+    }
+  };
+
   //currentPlayer
   const handleClick = (i, j) => {
     if (loading || status !== STATUS.GAMING) return;
@@ -31,6 +45,7 @@ const Board = () => {
   };
 
   return (
+    <div>
     <div className="board" style={{ backgroundImage: `url(${bg})` }}>
       {board.map((row, i) => (
         <div key={i} className="board-row">
@@ -78,6 +93,8 @@ const Board = () => {
         </div>
       ))}
     </div>
+      <Button onClick={changeBg}>Change Wallpaper</Button>
+      </div>
   );
 };
 
