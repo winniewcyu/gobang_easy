@@ -8,8 +8,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
-const Game = require('./src/backend/GameHandlers.js');
 
+//const Game = require('./src/backend/GameHandlers.js');
+
+// TODO: link with db
 mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const User = mongoose.model('User', new mongoose.Schema({
@@ -18,7 +20,34 @@ const User = mongoose.model('User', new mongoose.Schema({
   email: String,
   password: String,
   online: Boolean,
-  score: Number,
+  score: Number
+}));
+
+const Pairing = mongoose.model('Pairing', new mongoose.Schema({
+  name: String
+}));
+
+const Game = mongoose.model('Game', new mongoose.Schema({
+  GameID: Number,            //for joining the room by roomid
+  GameMode: String,
+  Status: Boolean,            //for joining the room (1:Ongoing, 0:Ended)
+  StartTime: String,
+  FinishTime: String,
+  Player1: String,
+  Player2: String,
+  Player1Records: [{
+    type : Number,
+    default : 100
+  }],
+  Player2Records: [{
+    type : Number,
+    default : 100
+  }],
+  Winner: String,
+  Movement: [{
+    type : Array,
+    default : []
+  }]
 }));
 
 User.findOne({ userType: "Admin" })
@@ -47,43 +76,72 @@ User.findOne({ userType: "Admin" })
 })
 
 app.post('/register', async (req, res) => {
-  const {userType, name, email, password} = req.body;
+  const {name, email, password} = req.body;
 
-  const existingUser = await User.findOne({email});
-  if (existingUser) {
-    return res.status(400).json({error: 'Username already exists'});
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = new User({userType, name, email, password: hashedPassword, online: true, score: 100, highestscore: 100});
-  await user.save();
-
-  res.json({success: true});
+  User.findOne({name:name})
+  .then((data)=>{
+    if(data){
+    console.log("This username is created before:",data);
+    res.status(404).json({error: 'Username already exists, please create another one'});
+    }
+    else {
+      const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+      const user = new User({userType: "User", name, email, password: hashedPassword, online: false, score: 100});
+      user.save();
+      res.status(200).json({success: true});
+    }
+  })
 });
 
 app.post('/login', async (req, res) => {
-  const {userType, password} = req.body;
+  const {userType, userName, password} = req.body;
 
-  const user = await User.findOne({userType});
-  if (!user) {
-    return res.status(400).json({error: 'Invalid username or password'});
-  }
-
-  const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) {
-    return res.status(400).json({error: 'Invalid username or password'});
-  }
-
-  // Generate and return JWT token...
+  User.findOne({userType: userType, name:userName})
+  .then((data)=>{
+    if(!data){
+      res.status(404).json({error: 'Invalid username or password'});
+    }
+    else{
+      bcrypt.compare(password, data.password)
+      .then(function(result){
+        if (result === false) {
+          res.status(400).json({error: 'Invalid username or password'});
+        }
+        else{
+          User.findOneAndUpdate(
+            {userType: userType, name: userName},
+            {online: true},
+            {new: true})
+          .then((data)=>{
+            // Generate and return JWT token...
+            const token = userName;
+            res.status(200).json({token: token});
+      })}
+  })
+}
+})
 });
 
+
+app.post('/logout', async (req, res) => {
+  const {userName}= req.body;
+  User.findOneAndUpdate(
+    {name: userName},
+    {online: false},
+    {new: true})
+  .then((data)=>{
+    const CMess = ('Log out successfully');
+    res.contentType('text/plain');
+    res.status(200).send(CMess);
+  })
+})
 //CRUD stored users
 //C
 app.post('/adminuser/', (req, res) => {
   const username = req.body.username;
   const password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
   let CMess = "";
-  User.findOne({name:{ $eq: username }, userType: "Admin" })
+  User.findOne({userType: "Admin", name:{ $eq: username }})
   .then((data)=>{
     if(data){
       CMess += ('This Admin User is already created before');
@@ -161,7 +219,7 @@ app.get('/alluser',  (req, res) => {
       "(Hashed) password: "+ data[i].password + "\n" +
       "userType: "+ data[i].userType + "\n" +
       "online: "+ data[i].online + "\n" +
-      "score: "+ data[i].score
+      "score: "+ data[i].score + "\n"
       )
 
       res.contentType('text/plain')
@@ -177,7 +235,7 @@ app.put('/user/:username', (req, res) => {
   const username = req.params.username;
   const newscore = req.body.newscore;
   let UMess = "";
-  User.findOne({ name: username, userType: "User" })
+  User.findOne({ userType: "User", name: username})
   .then((data)=>{
     if(!data){
       UMess += ('User is not created before OR This user is an admin');
@@ -186,13 +244,15 @@ app.put('/user/:username', (req, res) => {
     }
     else{
         User.findOneAndUpdate(
-          {name: username, userType: "User" },
+          {userType: "User", name: username},
           {score: newscore},
           {new: true})
-      UMess += ('You have successfully update an user score');
-      res.contentType('text/plain');
-      res.status(200).send(UMess);
-
+        .then((data)=>{
+        console.log('the updated document is:', data);
+        UMess += ('You have successfully update an user score');
+        res.contentType('text/plain');
+        res.status(200).send(UMess);
+        })
     }
   })
 
@@ -216,7 +276,7 @@ app.delete('/user/:username', (req, res) => {
         )
         .then((data) => {
           res.contentType('text/plain');
-          res.status(204).send('The deleted data is:', data);
+          res.status(200).send("A user is deleted");
         })
         .catch((error) => console.log(error));
         
@@ -238,7 +298,7 @@ app.get('/top5user',  (req, res) => {
     }
     else{
       const RMess = data
-          .map((user) => `${user.name}\n${user.score}`)
+          .map((user, index) => `${user.name}\n${user.score}`)
           .join('\n');
         res.contentType('text/plain');
         res.status(200).send(RMess);
@@ -275,6 +335,111 @@ app.get('/onlineuser',  (req, res) => {
     }
   })
 })
+
+/* backend functions:
+Initialized GameRecord (Start playing with machine private mode)*/
+app.put('/game/machineprivate', (req, res) => {
+  const username = req.body.username;
+  const timestamp = Date.now();
+  const date = new Date(timestamp);
+  const ExistingTime = date.toLocaleString();
+  const RoomID = Math.floor(Math.random() * (19999 - 10000 + 1)) + 10000;
+  let NewMachinePrivate = new Game({
+    GameID: RoomID,            
+    GameMode: "Private",
+    Status: true,            
+    StartTime: ExistingTime,
+    Player1: username,
+    Player2: "Machine",
+    Player1Records: 100,
+    Player2Records: 100,
+    });
+
+    //Saving this to database
+    NewMachinePrivate
+    .save()
+    .then(() => {
+      console.log("Start Game (Play with machine private mode)");
+      res.contentType('text/plain')
+      res.status(200).send("Create a game successfully");
+    })
+    .catch((error) => {
+      console.log("Error exists in starting game");
+      console.log(error);
+      res.contentType('text/plain')
+      res.status(400).send("Error exists creating a game");
+    });
+
+})
+
+// Initialized GameRecord (Start playing with machine public mode)
+app.put('/game/machinepublic', (req, res) => {
+  const username = req.body.username;
+  const timestamp = Date.now();
+  const date = new Date(timestamp);
+  const ExistingTime = date.toLocaleString();
+  const RoomID = Math.floor(Math.random() * (29999 - 20000 + 1)) + 20000;
+  let NewMachinePrivate = new Game({
+    GameID: RoomID,            
+    GameMode: "Public",
+    Status: true,            
+    StartTime: ExistingTime,
+    Player1: username,
+    Player2: "Machine",
+    Player1Records: 100,
+    Player2Records: 100,
+    });
+
+    //Saving this to database
+    NewMachinePrivate
+    .save()
+    .then(() => {
+      console.log("Start Game (Play with machine public mode)");
+      res.contentType('text/plain')
+      res.status(200).send("Create a game successfully");
+    })
+    .catch((error) => {
+      console.log("Error exists in starting game");
+      console.log(error);
+      res.contentType('text/plain')
+      res.status(400).send("Error exists creating a game");
+    });
+
+})
+
+// Initialized Gameboard (Start playing with human private mode)
+
+// Initialized Gameboard (Start playing with human public mode after pairing)
+
+// Pairing 
+
+// Check the existing room id
+app.get('/existingroom',  (req, res) => {
+  const RoomID = req.body.RoomID;
+  let RMess = "";
+  Game.findOne({GameID: RoomID, GameMode: "Public", Status: true})
+  .then((data)=>{
+    if(!data){
+      RMess += ('This Room ID is not existed');
+      res.contentType('text/plain');
+      res.status(404).send(RMess);
+    }
+    else{
+      RMess += ("This Room ID is existed");
+      res.contentType('text/plain')
+      res.status(200).send(RMess);
+
+    }
+  })
+})
+
+// Read Game History of a user
+
+// End the game (Win/Someone ends earlier)
+
+
+// 
+
 
 
 app.listen(8080, () => console.log('Server running on http://localhost:8080'));

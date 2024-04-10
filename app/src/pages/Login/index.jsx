@@ -4,12 +4,13 @@ import './LoginPage.css'
 import Cookies from "universal-cookie";
 
 function LoginPage() {
+  //console.log(logo);
   const navigate = useNavigate();
   const cookies = new Cookies();
   
   // State to manage login form inputs
-  const [userType, setUserType] = useState("user"); // ["user", "admin"]
-  const [name, setUserName] = useState("");
+  const [userType, setUserType] = useState("User"); // ["user", "admin"]
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -17,7 +18,7 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
     // check if the email is valid
-    if (!name) {
+    if (!userName) {
       setError("Please enter a username");
       return;
     }
@@ -29,30 +30,27 @@ function LoginPage() {
 
     // Perform API call to login the user
     fetch("http://localhost:8080/login", {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, userType, password }), 
-})
-
-      .then((res) => {
-        if (!res.ok){throw new Error(res.statusText);
-        }
-        return res.json();})
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-        } else {
-          // Store the JWT token in the browser's cookies
-          cookies.set("auth", data.accessToken, { path: "/" });
-          navigate(`${userType}`);
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  };
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userType, userName, password }),
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        // Store the JWT token in the browser's cookies
+        cookies.set("auth", data.token, { path: "/" });
+        if(userType === "Admin") navigate("/admin");
+        else navigate("/home");
+      }
+    })
+    .catch((error) => {
+      setError(error.message);
+    });
+};
 
   return (
     <div className="login-page">
@@ -66,16 +64,16 @@ function LoginPage() {
             value={userType}
             onChange={(e) => setUserType(e.target.value)}
           >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
           </select>
           </label>
           <br />
           <label>
           Username:
           <input
-            type="name"
-            value={name}
+            type="userName"
+            value={userName}
             placeholder="Type your userName" 
             onChange={(e) => setUserName(e.target.value)}
           />
@@ -92,7 +90,7 @@ function LoginPage() {
           </label>
           <br />
           <button onClick={handleLogin}>Login</button>
-          <button type="button" onClick={() => navigate(`/register/${userType}`)}>
+          <button type="button" onClick={() => navigate('/register')}>
           Register
           </button>
           <br />

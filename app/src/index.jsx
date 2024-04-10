@@ -23,7 +23,7 @@ root.render(
   <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register/:userType" element={<Register />} />
+        <Route path="/register" element={<Register />} />
         
           <Route path="/user" element={<UserHome />} />
           <Route path="/gamerecord" element={<GameRecord />} />
