@@ -97,6 +97,8 @@ function NewGamePrivate() {
                 <ul style={{textAlign:"center", fontSize: 40}}>Select your opponent:</ul>
                 <button onClick={() => {setOpponent('machine'); handleCreate();}}>Machine</button>
                 <button onClick={() => setOpponent('human')}>Human</button>
+
+                <ul style={{textAlign: "center", marginRight: "30px"}}><a href="/user" className="btn btn-primary">Back to Home</a></ul>
                 {opponent === 'human' && (
                     <div>
                         <p>Do you want to join a room or create a new one?</p>
