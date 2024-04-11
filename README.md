@@ -99,6 +99,10 @@ information should be presented clearly and correctly.
 
 - [x] **Wallpaper of game board can be chosen between three options.**
 
+- [x] **Leaderboard**
+
+- [x] **Resign**
+
 ## Partially Completed Work //to_be_amend
 
 While we strived to complete all aspects of the project, the following parts are not fully completed:
