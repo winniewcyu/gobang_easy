@@ -163,7 +163,15 @@ return (
       <div>Main Time Left: {isElegantTime ? '00:00' : Math.floor(mainTime / 1000)} seconds</div>
       <div>Time for Current Move: {formattedMoveTime} </div>
       <div>Elapsed Time: {formattedTime} </div>
-      <div></div>
+      <div>
+        <Button
+          className="button btn btn-warning"
+          style={{ width: '300px' }}
+          href="/user"
+        >
+          Back to Home
+        </Button>
+      </div>
     </div>
     <div className="status">
       <div className="status-item">position: {JSON.stringify(path[0])}</div>
@@ -173,6 +181,6 @@ return (
     </div>
   </div>
 );
-}
+};
 
 export default Control;
