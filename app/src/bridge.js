@@ -1,4 +1,5 @@
 import MinmaxWorker from 'worker-loader!./minmax.worker';
+import fetch from 'node-fetch';
 
 const worker = new MinmaxWorker();
 export const start = async (board_size, aiFirst, depth) => {
@@ -37,7 +38,6 @@ export const move = async (position, depth) => {
     };
   })
 };
-
 export const end = async () => {
   return new Promise((resolve, reject) => {
     worker.postMessage({
@@ -66,7 +66,7 @@ export const end = async () => {
         };
 
         // Send a POST request to the server
-        fetch('http://localhost:8080/adminuser', { //put your server address here
+        fetch('http://localhost:8080/adminuser', { // Replace with your server address
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -79,12 +79,13 @@ export const end = async () => {
         })
         .catch(error => {
           console.error('Error:', error);
+          reject(error);
         });
+        resolve(payload);
       }
     };
-  })
+  });
 };
-
 
 export const undo = async () => {
   return new Promise((resolve, reject) => {
@@ -100,3 +101,4 @@ export const undo = async () => {
     };
   })
 };
+
