@@ -159,10 +159,9 @@ return (
     </div>
     <div className="game-info">
       <div>Current Player: {currentPlayer} ({stoneType})</div>
-      <div>Start Time: {reportedTime}</div>
+      <div>Start Time: {reportedTime}           Elapsed Time: {formattedTime} </div>
       <div>Main Time Left: {isElegantTime ? '00:00' : Math.floor(mainTime / 1000)} seconds</div>
       <div>Time for Current Move: {formattedMoveTime} </div>
-      <div>Elapsed Time: {formattedTime} </div>
       <div>
         <Button
           className="button btn btn-warning"

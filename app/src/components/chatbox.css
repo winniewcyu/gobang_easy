@@ -1,43 +1,13 @@
 .Chat {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 375px;
-    width: 375px;
-    max-width: 600px;
-    max-height: 600px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #fff;
-    margin: 10px auto;
-}
-
-.Chat div {
-    margin-bottom: 10px;
-}
-
-form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-form input {
-    width: 80%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-}
-
-form button {
-    width: 15%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
+    position: fixed; /* Fixed/Sticky position */
+    right: 0; /* Place the chatbox at the right */
+    top: 0; /* Start from the top */
+    width: 300px; /* Width of the chatbox */
+    height: 100%; /* Full height of the screen */
+    overflow: auto; /* Add a scrollbar if necessary */
+    border: 1px solid black; /* Optional: add a border */
+    border-radius: 10px; /* Optional: round the corners */
+    padding: 10px; /* Optional: add some padding */
+    z-index: 1000; /* Ensure it's above other elements */
+  }
+  

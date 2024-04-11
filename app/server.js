@@ -610,14 +610,14 @@ app.post('/game/ends', async (req, res) => {
     Mess += "Update the Game Record" + RoomID + "\n";
     User.findOneAndUpdate(
       {userType: "User", name: data.Player1},
-      {$push: { score: Player1Records }},
+      {$inc: { score: Player1Records }},
       {new: true})
     .then((dataU1)=>{
       console.log("Update the Player 1's score");
       Mess += "Update the Player 1's score\n";
       User.findOneAndUpdate(
         {userType: "User", name: data.Player2},
-        {$push: { score: Player2Records }},
+        {$inc: { score: Player2Records }},
         {new: true})
       .then((dataU2)=>{
         console.log("Update the Player 2's score");

@@ -57,10 +57,11 @@ export const end = async () => {
 
         // Prepare the data to be sent
         const data = {
+          RoomID: 24664,
           winner: gameData.winner,
-          player1: gameData.player1,
-          player2: gameData.player2,
-          last_board: gameData.board,
+          Player1Records: 5,
+          Player2Records: 20,
+          Movement: gameData.board,
           start_time: gameData.start_time,
           elapsed_time: gameData.elapsed_time
         };
