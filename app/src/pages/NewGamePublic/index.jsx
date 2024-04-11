@@ -93,6 +93,7 @@ function NewGamePublic () {
                 <br/>
                 <button onClick={() => setOpponent('machine')}>Play against Machine</button>
                 <button onClick={() => setOpponent('human')}>Play against Human</button>
+                <ul style={{textAlign: "center", marginRight: "25px"}}><a href="/user" className="btn btn-primary">Back to Home</a></ul>
             </div>
         </>
     );
