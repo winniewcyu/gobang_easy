@@ -44,7 +44,7 @@ class GameRecord extends React.Component {
       
         return(
         <>
-        <ul style={{textAlign:"center"}}><a href="/home" class="btn btn-primary">Back to Home</a></ul>
+        <ul style={{textAlign:"center"}}><a href="/user" class="btn btn-primary">Back to Home</a></ul>
         <div class="container p-5 my-5 border" style={{textAlign:"center"}}>
         <h1>Your Gaming Record: </h1>
         <h4>Update at: {humanReadableDate}</h4>
