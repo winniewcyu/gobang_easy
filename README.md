@@ -57,19 +57,19 @@ Compared to the streamlined model, this project employs the prototyping method, 
 
 - [x] **User Login & Logout** - Let users login and logout in your game. Users should be able to conduct more operations after login.
 
-- [ ] **View Game Records** - Users can view the game record with the following attributes: start time, elapsed time, player names, winner, and the final Goboard with stones.
+- [x] **View Game Records** - Users can view the game record with the following attributes: start time, elapsed time, player names, winner, and the final Goboard with stones.
 
 - [x] **Upon Login** - Upon login, show the main page with two panels: “start new game”, “view the game 
 records”.
 
-- [ ] **During the game** - During the game, display a 19x19 Goboard, current player and its stone type, all player scores, start time, elapsed time. The 
+- [x] **During the game** - During the game, display a 19x19 Goboard, current player and its stone type, all player scores, start time, elapsed time. The 
 information should be presented clearly and correctly.
 
 - [x] **Player move** - After a player places a stone, the stone is rendered correctly. Meanwhile, different players have different stones.
 
 - [x] **Gameover** - When a player forms five consecutive pieces of the same color on the horizontal, vertical, and diagonal directions, the game ends. The game returns to the main page.
 
-- [ ] **Retract a false move** - In a game of two human players, one player can retract a false move after seeking agreement from another human player.
+- [x] **Retract a false move** - In a game of two human players, one player can retract a false move after seeking agreement from another human player.
 
 - [x] **Chat System** - Players are able to send and receive chat messages from each other during the game.
 
