@@ -47,57 +47,57 @@ Compared to the streamlined model, this project employs the prototyping method, 
 
 ## Accomplishments and Bonus Request //to_be_amend
 
-[x] **Database Intergration** - Integrate a global database, i.e: MongoDB
+- [x] **Database Intergration** - Integrate a global database, i.e: MongoDB
 
-[ ] **Two human players** - Support two-human player game. Players are connected via a server (local), and each player has a separate game window.
+- [ ] **Two human players** - Support two-human player game. Players are connected via a server (local), and each player has a separate game window.
 
-[ ] **Random Player** - Support the game between a human player and a random player
+- [ ] **Random Player** - Support the game between a human player and a random player
 
-[x] **User signup** - Create a new user profile. Only user name and password are needed.
+- [x] **User signup** - Create a new user profile. Only user name and password are needed.
 
-[x] **User Login & Logout** - Let users login and logout in your game. Users should be able to conduct more operations after login.
+- [x] **User Login & Logout** - Let users login and logout in your game. Users should be able to conduct more operations after login.
 
-[ ] **View Game Records** - Users can view the game record with the following attributes: start time, elapsed time, player names, winner, and the final Goboard with stones.
+- [ ] **View Game Records** - Users can view the game record with the following attributes: start time, elapsed time, player names, winner, and the final Goboard with stones.
 
-[x] **Upon Login** - Upon login, show the main page with two panels: “start new game”, “view the game 
+- [x] **Upon Login** - Upon login, show the main page with two panels: “start new game”, “view the game 
 records”.
 
-[ ] **During the game** - During the game, display a 19x19 Goboard, current player and its stone type, all player scores, start time, elapsed time. The 
+- [ ] **During the game** - During the game, display a 19x19 Goboard, current player and its stone type, all player scores, start time, elapsed time. The 
 information should be presented clearly and correctly.
 
-[x] **Player move** - After a player places a stone, the stone is rendered correctly. Meanwhile, different players have different stones.
+- [x] **Player move** - After a player places a stone, the stone is rendered correctly. Meanwhile, different players have different stones.
 
-[x] **Gameover** - When a player forms five consecutive pieces of the same color on the horizontal, vertical, and diagonal directions, the game ends. The game returns to the main page.
+- [x] **Gameover** - When a player forms five consecutive pieces of the same color on the horizontal, vertical, and diagonal directions, the game ends. The game returns to the main page.
 
-[ ] **Retract a false move** - In a game of two human players, one player can retract a false move after seeking agreement from another human player.
+- [ ] **Retract a false move** - In a game of two human players, one player can retract a false move after seeking agreement from another human player.
 
-[x] **Chat System** - Players are able to send and receive chat messages from each other during the game.
+- [x] **Chat System** - Players are able to send and receive chat messages from each other during the game.
 
 **BONUS**
 
-[ ] **Add friends and further invite friends to a game**
+- [ ] **Add friends and further invite friends to a game**
 
-[x] **Early Termination of the Game (e.g., “open 4” 活四, double "open 3s" 雙活三)**
+- [x] **Early Termination of the Game (e.g., “open 4” 活四, double "open 3s" 雙活三)**
 
-[x] **Time control. For example, each player has a main time limit, say 20 minutes to make decisions on all their moves. Once a player uses up their main time, they enter into the elegant time period. This is often a series of fixed time intervals, like 30 seconds per move.** 
+- [x] **Time control. For example, each player has a main time limit, say 20 minutes to make decisions on all their moves. Once a player uses up their main time, they enter into the elegant time period. This is often a series of fixed time intervals, like 30 seconds per move.** 
 
-[ ] **detect and disallow (some of) the forbidden moves**
+- [ ] **detect and disallow (some of) the forbidden moves**
 
-[x] **Implement Game AI with (some of) the following techniques: Rule-based AI - Advanced Techniques, e.g. alpha-beta pruning.**
+- [x] **Implement Game AI with (some of) the following techniques: Rule-based AI - Advanced Techniques, e.g. alpha-beta pruning.**
 
-[x] **Implement admin users that can view user records and delete users.**
+- [x] **Implement admin users that can view user records and delete users.**
 
-[x] **Sound effects of the game**
+- [x] **Sound effects of the game**
 
-[x] **Good UI Design**
+- [x] **Good UI Design**
 
 **Extra Bonus**
 
-[x] **Allow player to choose between black or white stone.**
+- [x] **Allow player to choose between black or white stone.**
 
-[x] **Password of every users are hashed before storing to db.**
+- [x] **Password of every users are hashed before storing to db.**
 
-[x] **Wallpaper of game board can be chosen between three options.**
+- [x] **Wallpaper of game board can be chosen between three options.**
 
 ## Partially Completed Work //to_be_amend
 

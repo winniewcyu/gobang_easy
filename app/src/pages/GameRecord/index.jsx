@@ -1,13 +1,53 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import Cookies from "universal-cookie";
 class GameRecord extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {result1: [], result2: []};
+  }
+  
+  async componentDidMount() {
+    const response = await fetch('http://localhost:8080/top5user', {
+      method: 'GET',
+    });
+    const resultPage = await response.text();
+    const cookies = new Cookies();
+    const username = cookies.get('auth',{ path: "/" });
+    const response2 = await fetch('http://localhost:8080/game/history/' + username, {
+      method: 'GET',
+      //body: JSON.stringify({ username: username }),
+    });
+    const resultPage2 = await response2.text();
+    const result = resultPage.split("\n");
+    this.setState({ result2: result })
+    const records = resultPage2.split("\n\n");
+    const result2 = records.map(record => {
+      const [startTime, finishTime, player1, player2, winner, record1, record2, movement] = record.split('\n');
+      return {
+        startTime,
+        finishTime,
+        player1,
+        player2,
+        winner,
+        record1,
+        record2,
+        movement
+      };
+    });
+    console.log(result2);
+    this.setState({ result1: result2 })
+  }
     render() {
+      const timestamp = Date.now();
+      const date = new Date(timestamp);
+      const humanReadableDate = date.toLocaleString();
+      
         return(
         <>
-        <ul style={{textAlign:"center"}}><a href="/user" class="btn btn-primary">Back to Home</a></ul>
+        <ul style={{textAlign:"center"}}><a href="/home" class="btn btn-primary">Back to Home</a></ul>
         <div class="container p-5 my-5 border" style={{textAlign:"center"}}>
         <h1>Your Gaming Record: </h1>
-        <h4>Update at: 31/3/2024, 10:04:40</h4>
+        <h4>Update at: {humanReadableDate}</h4>
         <div class="container mt-3">
             <table class="table">
               <thead class="table-secondary">
@@ -20,55 +60,22 @@ class GameRecord extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1/3/2024, 18:00:42-18:35:56</td>
-                  <td>Test01</td>
-                  <td>You</td>
-                  <td>38 (+20)</td>
-                  <td><a href="/gamerecord">Link</a></td>
-                </tr>
-                <tr>
-                <td>7/11/2023, 17:17:19-17:55:45</td>
-                <td>Test01</td>
-                <td>Test01</td>
-                <td>18 (+8)</td>
-                <td><a href="/gamerecord">Link</a></td>
-                </tr>
-                <tr>
-                <td>19/11/2022, 08:56:32-09:46:14</td>
-                <td>Machine</td>
-                <td>Machine</td>
-                <td>10 (-5)</td>
-                <td><a href="/gamerecord">Link</a></td>
-                </tr>
-                <tr>
-                <td>11/9/2022, 09:44:46-11:45:11</td>
-                <td>Test05</td>
-                <td>Test05</td>
-                  <td>15 (+0)</td>
-                  <td><a href="/gamerecord">Link</a></td>
-                </tr>
-                <tr>
-                <td>11/1/2022, 13:11:07-15:14:55</td>
-                <td>Test02</td>
-                <td>Test02</td>
-                  <td>15 (+5)</td>
-                  <td><a href="/gamerecord">Link</a></td>
-                </tr>
-                <tr>
-                <td>11/11/2021, 11:36:53-11:58:44</td>
-                <td>Test03</td>
-                <td>You</td>
-                  <td>10 (+10)</td>
-                  <td><a href="/gamerecord">Link</a></td>
-                </tr>
+              {this.state.result1.map((record, index) => (
+              <tr key={index}>
+              <td>{record.startTime} - {record.finishTime}</td>
+              <td>{record.player1} vs {record.player2}</td>
+              <td>{record.winner}</td>
+              <td>{record.record1} vs {record.record2}</td>
+              <td>{record.movement}</td>
+            </tr>
+          ))}
               </tbody>
             </table>
           </div>
         </div>
         <div class="container p-5 my-5 border" style={{textAlign:"center"}}>
         <h1>Leaderboard (Top 5): </h1>
-        <h4>Update at: 31/3/2024, 10:04:40</h4>
+        <h4>Update at: {humanReadableDate}</h4>
         <div class="container mt-3">
             <table class="table">
               <thead class="table-secondary">
@@ -79,24 +86,24 @@ class GameRecord extends React.Component {
               </thead>
               <tbody>
                 <tr>
-                  <td>Test01</td>
-                  <td>130</td>
+                  <td>{this.state.result2[0]}</td>
+                  <td>{this.state.result2[1]}</td>
                 </tr>
                 <tr>
-                <td>Test02</td>
-                  <td>128</td>
+                <td>{this.state.result2[2]}</td>
+                  <td>{this.state.result2[3]}</td>
                 </tr>
                 <tr>
-                <td>Test03</td>
-                  <td>69</td>
+                <td>{this.state.result2[4]}</td>
+                  <td>{this.state.result2[5]}</td>
                 </tr>
                 <tr>
-                <td>You (Test)</td>
-                  <td>38</td>
+                <td>{this.state.result2[6]}</td>
+                  <td>{this.state.result2[7]}</td>
                 </tr>
                 <tr>
-                <td>Test04</td>
-                  <td>19</td>
+                <td>{this.state.result2[8]}</td>
+                  <td>{this.state.result2[9]}</td>
                 </tr>
                 
               </tbody>
@@ -107,5 +114,11 @@ class GameRecord extends React.Component {
         </>
         );
     }
+
 }
 export default GameRecord;
+
+/*frontend functions:
+1. fetch user game history
+2. fetch top 5 users' scores
+*/

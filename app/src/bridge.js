@@ -46,11 +46,45 @@ export const end = async () => {
     worker.onmessage = (event) => {
       const { action, payload } = event.data;
       if (action === 'end') {
-        resolve(payload);
+        // Fetch the required data
+        const gameData = payload;
+
+        // Add additional data
+        gameData.start_time = Date.now();  // Current time
+        gameData.elapsed_time = (Date.now() - gameData.start_time) / 1000;  // Elapsed time in seconds
+        gameData.player1 = "Alice";  // Replace with actual player name
+        gameData.player2 = "Bob";  // Replace with actual player name
+
+        // Prepare the data to be sent
+        const data = {
+          winner: gameData.winner,
+          player1: gameData.player1,
+          player2: gameData.player2,
+          last_board: gameData.board,
+          start_time: gameData.start_time,
+          elapsed_time: gameData.elapsed_time
+        };
+
+        // Send a POST request to the server
+        fetch('http://localhost:8080/adminuser', { //put your server address here
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.text())
+        .then(resultpage => {
+          resolve(gameData);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
       }
     };
   })
 };
+
 
 export const undo = async () => {
   return new Promise((resolve, reject) => {

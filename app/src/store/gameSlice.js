@@ -40,6 +40,8 @@ const initialState = {
   score: 0,
   path: [],
   currentDepth: 0,
+  player1: { name: 'Player1', score: 0},
+  player2: { name: 'Player2', score: 0},
 };
 
 export const gameSlice = createSlice({
@@ -63,6 +65,12 @@ export const gameSlice = createSlice({
     },
     setIndex: (state, action) => {
       state.index = action.payload;
+    },
+    setPlayer1Name: (state, action) => {
+      state.player1.name = action.payload;
+    },
+    setPlayer2Name: (state, action) => {
+      state.player2.name = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -113,9 +121,18 @@ export const gameSlice = createSlice({
         state.loading = false;
       })
       .addCase(endGame.fulfilled, () => {
+        if (action.payload.winner !== 0) {
+          state.status = STATUS.ONLINE;
+          // Update the scores
+          if (state.currentPlayer === 1) {
+            state.player1.score += 10;
+            state.player2.score -= 5;
+          } else {
+            state.player1.score -= 5;
+            state.player2.score += 10;}}
         return initialState;
       });
   },
 });
-export const { tempMove, setAiFirst, setDepth, setIndex } = gameSlice.actions;
+export const { tempMove, setAiFirst, setDepth, setIndex, setPlayer1Name, setPlayer2Name } = gameSlice.actions;
 export default gameSlice.reducer;

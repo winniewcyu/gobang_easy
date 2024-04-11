@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
@@ -32,14 +33,14 @@ const Game = mongoose.model('Game', new mongoose.Schema({
   FinishTime: String,
   Player1: String,
   Player2: String,
-  Player1Records: [{
+  Player1Records: {
     type : Number,
     default : 0
-  }],
-  Player2Records: [{
+  },
+  Player2Records: {
     type : Number,
     default : 0
-  }],
+  },
   Winner: String,
   Movement: [{
     type : Array,
@@ -488,6 +489,7 @@ app.put('/game/humanpublic', (req, res) => {
 
 })
 
+let dataDeleted = false; // Flag to track data deletion
 // 7. Pairing for public human
 app.post('/pairing', async (req, res) => {
   const username = req.body.username;
@@ -512,6 +514,7 @@ app.post('/pairing', async (req, res) => {
         });
     }
     else{
+      dataDeleted = true;
       Pairing.findOneAndDelete({})
         .then((data) => {
           res.contentType('text/plain');
@@ -555,32 +558,36 @@ app.get('/existingroom/:RoomID',  (req, res) => {
 })
 
 // 10. Read Game History of a user
-app.get('/game/history',  (req, res) => {
-  const username = req.body.username;
-
+app.get('/game/history/:username', (req, res) => {
+  const username = req.params.username;
   let RMess = "";
-  Game.find({$or: [{ Player1: username }, { Player2: username }], Status: false})
-  .then((data)=>{
-    if(!data){
-      RMess += ('You have no gaming history');
-      res.contentType('text/plain');
-      res.status(404).send(RMess);
-    }
-    else{
-      for (let i=0; i<data.length; i++)
-      RMess += (data[i].StartTime + "\n" +
-      data[i].FinishTime + "\n" +
-      data[i].Player1 + data[i].Player2 +"\n" +
-      data[i].Winner + "\n" +
-      data[i].Player1Records + data[i].Player2Records +"\n" +
-      data[i].Movement + "\n\n"
-      )
-      res.contentType('text/plain')
-      res.status(200).send(RMess);
 
-    }
-  })
-})
+  Game.find({ $or: [{ Player1: username }, { Player2: username }], Status: false})
+    .then((data) => {
+      if (data.length === 0) {
+        RMess += 'You have no gaming history';
+        res.contentType('text/plain');
+        res.status(400).send(RMess);
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          RMess += (
+            data[i].StartTime + "\n" +
+            data[i].FinishTime + "\n" +
+            data[i].Player1 + "\n" + data[i].Player2 + "\n" +
+            data[i].Winner + "\n" +
+            data[i].Player1Records + "\n" + data[i].Player2Records + "\n" +
+            data[i].Movement + "\n"
+          );
+        }
+        res.contentType('text/plain');
+        res.status(200).send(RMess);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('An error occurred while retrieving game history');
+    });
+});
 
 // 11. Someone wins/draw (record movements and result)
 app.post('/game/ends', async (req, res) => {
@@ -629,8 +636,28 @@ app.post('/game/ends', async (req, res) => {
 
 
 // 12. In Waiting Home, listen to database to pair to a opponent in public mode
+app.get('/check-deletion', (req, res) => {
+  if (dataDeleted) {
+    res.status(200).send('Data deleted');
+    dataDeleted = false; // Reset the flag
+  } else {
+    // Continue waiting for data deletion
+    io.once('dataDeleted', () => {
+      res.status(200).send('Data deleted');
+    });
+  }
+});
+
+io.on('connection', (socket) => {
+  // Handle data deletion event
+  socket.on('dataDeleted', () => {
+    dataDeleted = true;
+    io.emit('dataDeleted'); // Notify all connected clients
+  });
+});
 
 
 
 app.listen(8080, () => console.log('Server running on http://localhost:8080'));
+//http.listen(8080, () => console.log('Server listening on http://localhost:8080'));
 

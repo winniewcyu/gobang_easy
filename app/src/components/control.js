@@ -21,6 +21,11 @@ function Control() {
   // Determine the current player and its stone type
   const currentPlayer = history.length % 2 === 0 ? 'Black' : 'White';
   const stoneType = currentPlayer === 'Black' ? 'black stones' : 'white stones';
+
+  const [blackPlayerUsername, setBlackPlayerUsername] = useState('Player1');
+  const [whitePlayerUsername, setWhitePlayerUsername] = useState('Player2');
+  const [blackPlayerScore, setBlackPlayerScore] = useState(score.black);
+  const [whitePlayerScore, setWhitePlayerScore] = useState(score.white);
   
   // Update the start time and elapsed time
   useEffect(() => {
@@ -163,8 +168,8 @@ return (
     <div className="status">
       <div className="status-item">position: {JSON.stringify(path[0])}</div>
       <div className="status-item">placing history: {JSON.stringify(history.map((h) => [h.i, h.j]))}</div>
-      <div className="status-item">Black player score: {score.black}</div>
-      <div className="status-item">White player score: {score.white}</div>
+      <div className="status-item">Black player: {blackPlayerUsername} - Score: {blackPlayerScore}</div>
+      <div className="status-item">White player: {whitePlayerUsername} - Score: {whitePlayerScore}</div>
     </div>
   </div>
 );
